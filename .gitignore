@@ -1,0 +1,6 @@
+*.pyc
+*.swp
+.idea/*
+__pycache__/
+/out/
+.DS_Store
