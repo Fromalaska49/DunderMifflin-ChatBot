@@ -83,8 +83,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'Chatbot',
-        'USER': 'root',
-        'PASSWORD': 'hunter2',
+        'USER': 'YOUR_MYSQL_INSTALLATION_USERNAME',
+        'PASSWORD': 'PASSWORD_FOR_YOUR_MYSQL_USER',
         'HOST': 'localhost',
         'PORT': '3306'
     }
