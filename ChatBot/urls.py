@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from .views.registration.Register import Register
+from .views.chatbot_service.ChatBotHandler import ChatBotHandler
 from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', Register.as_view(), name="register"),
-    url(r'^register', Register.as_view(), name="register")
+    url(r'^register', Register.as_view(), name="register"),
+    url(r'^chatbot', ChatBotHandler.as_view(), name="chatbot_handler"),
 ]
