@@ -1,13 +1,14 @@
 from django.contrib.auth import authenticate as django_auth
+from ChatBot.views.misc.GlobalDictKeys import *
 from django.contrib.auth.models import User
 
-#THESE METHODS HANDLE AUTHENTICATION ONLY
-#LOGIN FUNCTIONALITY HANDLED SEPARATELY, AS WE WILL
-#NEED TO AUTHENTICATE A LOGGED IN USER WHEN UPDATING INFORMATION
+# THESE METHODS HANDLE AUTHENTICATION ONLY
+# LOGIN FUNCTIONALITY HANDLED SEPARATELY, AS WE WILL
+# NEED TO AUTHENTICATE A LOGGED IN USER WHEN UPDATING INFORMATION
 
 NULL_STATE = None
 USERNAME_STATE = 'USERNAME_STATE'
-LOGIN_STATE_MACHINE = 'LOGIN_STATE_MACHINE'
+LOGIN_MACHINE_STATE = 'LOGIN_STATE_MACHINE'
 
 #request param constant
 INPUT = 'input'
@@ -17,12 +18,12 @@ EMAIL = 'email'
 LOGIN_ATTEMPTS = 'login_attempts'
 
 #return codes
-RET_01 = 'PASSWORD_REQUIRED'
-RET_02 = 'INVALID_CREDENTIALS'
-RET_03 = 'ACCOUNT_LOCKED'
-RET_04 = 'ACCOUNT_INACTIVE'
-RET_05 = 'AUTH_SUCCESS'
-RET_06 = 'ERROR'
+PASSWORD_REQUIRED = 'PASSWORD_REQUIRED'
+INVALID_CREDENTIALS = 'INVALID_CREDENTIALS'
+ACCOUNT_LOCKED = 'ACCOUNT_LOCKED'
+ACCOUNT_INACTIVE = 'ACCOUNT_INACTIVE'
+AUTH_SUCCESS = 'AUTH_SUCCESS'
+ERROR = 'ERROR'
 
 LOGIN_ATTEMPT_LIMIT = 5
 
@@ -96,14 +97,18 @@ def login_attempts_exceeded(session):
 
 def authenticate(request):
 
-    state = request.session.get(LOGIN_STATE_MACHINE)
+    auth_return = {}
+    state = request.session.get(LOGIN_MACHINE_STATE)
 
     #retrieve username, move to USERNAME_STATE
     if state == NULL_STATE:
+        print 'GETTING EMAIL FOR LOGIN'
         email = request.POST.get(INPUT)
         request.session[EMAIL] = email
-        request.session[LOGIN_STATE_MACHINE] = USERNAME_STATE
-        return RET_01
+        request.session[LOGIN_MACHINE_STATE] = USERNAME_STATE
+        auth_return[RET_CODE] = PASSWORD_REQUIRED
+        print 'RETRIEVED EMAIL. MOVED TO USERNAME_STATE'
+        return auth_return
 
     #retrieve password and authenticate. Move to NULL_STATE reguardless of outcome (reset machine)
     elif state == USERNAME_STATE:
@@ -111,30 +116,39 @@ def authenticate(request):
         email = request.session.get(EMAIL)
 
         if not user_exists(email):
-            return RET_02
+            auth_return[RET_CODE] = INVALID_CREDENTIALS
+            return auth_return
 
         if login_attempts_exceeded(request.session):
             #lock account with added variable
-            return RET_03
+            auth_return[RET_CODE] = ACCOUNT_LOCKED
+            return auth_return
 
         user = django_auth(request, username=email, password=password)
 
         if user is None:
 
-            request.session[LOGIN_STATE_MACHINE] = NULL_STATE
+            request.session[LOGIN_MACHINE_STATE] = NULL_STATE
             increment_login_attempts(request.session)
+            auth_return[RET_CODE] = INVALID_CREDENTIALS
+            return auth_return
 
         else:
 
             reset_login_attempts(request.session)
 
             if user.is_active:
-                return RET_05
+                auth_return[RET_CODE] = AUTH_SUCCESS
+                auth_return[USER] = user
+                return auth_return
+
             else:
-                return RET_04
+                auth_return[RET_CODE] = ACCOUNT_INACTIVE
+                return auth_return
 
     else:
         print 'UNRECOGNIZED STATE: ' + state
-        request.session[LOGIN_STATE_MACHINE] = NULL_STATE
-        return RET_06
+        request.session[LOGIN_MACHINE_STATE] = NULL_STATE
+        auth_return[RET_CODE] = ERROR
+        return auth_return
 
