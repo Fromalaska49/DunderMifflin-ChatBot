@@ -1,31 +1,10 @@
 from django.contrib.auth import authenticate as django_auth
-from ChatBot.views.misc.GlobalDictKeys import *
 from django.contrib.auth.models import User
+from ChatBot.views.misc.Constants import *
 
 # THESE METHODS HANDLE AUTHENTICATION ONLY
 # LOGIN FUNCTIONALITY HANDLED SEPARATELY, AS WE WILL
 # NEED TO AUTHENTICATE A LOGGED IN USER WHEN UPDATING INFORMATION
-
-NULL_STATE = None
-USERNAME_STATE = 'USERNAME_STATE'
-LOGIN_MACHINE_STATE = 'LOGIN_STATE_MACHINE'
-
-#request param constant
-INPUT = 'input'
-
-#session attribute label constant
-EMAIL = 'email'
-LOGIN_ATTEMPTS = 'login_attempts'
-
-#return codes
-PASSWORD_REQUIRED = 'PASSWORD_REQUIRED'
-INVALID_CREDENTIALS = 'INVALID_CREDENTIALS'
-ACCOUNT_LOCKED = 'ACCOUNT_LOCKED'
-ACCOUNT_INACTIVE = 'ACCOUNT_INACTIVE'
-AUTH_SUCCESS = 'AUTH_SUCCESS'
-ERROR = 'ERROR'
-
-LOGIN_ATTEMPT_LIMIT = 5
 
 
 def user_exists(email):
@@ -100,7 +79,7 @@ def authenticate(request):
     auth_return = {}
     state = request.session.get(LOGIN_MACHINE_STATE)
 
-    #retrieve username, move to USERNAME_STATE
+    # retrieve username, move to USERNAME_STATE
     if state == NULL_STATE:
         print 'GETTING EMAIL FOR LOGIN'
         email = request.POST.get(INPUT)
@@ -110,17 +89,17 @@ def authenticate(request):
         print 'RETRIEVED EMAIL. MOVED TO USERNAME_STATE'
         return auth_return
 
-    #retrieve password and authenticate. Move to NULL_STATE reguardless of outcome (reset machine)
+    # retrieve password and authenticate. Move to NULL_STATE reguardless of outcome (reset machine)
     elif state == USERNAME_STATE:
         password = request.POST.get(INPUT)
         email = request.session.get(EMAIL)
 
-        if not user_exists(email):
-            auth_return[RET_CODE] = INVALID_CREDENTIALS
-            return auth_return
+        # if not user_exists(email):
+        # auth_return[RET_CODE] = INVALID_CREDENTIALS
+        # return auth_return
 
         if login_attempts_exceeded(request.session):
-            #lock account with added variable
+            # lock account with added variable
             auth_return[RET_CODE] = ACCOUNT_LOCKED
             return auth_return
 
