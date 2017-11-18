@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.http import HttpResponse
 from django.shortcuts import render
+from ChatBot.models import User
 from ChatBot.views.util.AuthenticationUtil import login_attempts_exceeded, increment_login_attempts, reset_login_attempts
 import json
 
@@ -18,7 +19,6 @@ class Login(ListView):
         user = authenticate(request, username=email, password=password)
 
         if login_attempts_exceeded(request.session, email):
-            # lock account with added variable
             return_data[MSG] = ATTEMPTS_EXCEEDED
 
         elif user is None:
@@ -26,7 +26,12 @@ class Login(ListView):
             return_data[MSG] = COMBINATION_INVALID
 
             if login_attempts_exceeded(request.session, email):
-                # lock account with added variable
+
+                if User.objects.filter(username=email).exists():
+                    user = User.objects.get(username=email)
+                    user.is_locked = True
+                    user.save()
+
                 return_data[MSG] = ATTEMPTS_EXCEEDED
 
         else:
@@ -45,7 +50,6 @@ class Login(ListView):
 
         # Get Request Handler
     def get(self, request):
-        request.session[LOGIN_ATTEMPTS] = None
         # Serve registration registration. give path relative to templates folder
         return render(request, "login.html")
 
