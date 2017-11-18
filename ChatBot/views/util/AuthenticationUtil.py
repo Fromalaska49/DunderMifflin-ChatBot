@@ -1,5 +1,5 @@
 from django.contrib.auth import authenticate as django_auth
-from django.contrib.auth.models import User
+from ChatBot.models import User
 from ChatBot.views.misc.Constants import *
 
 # THESE METHODS HANDLE AUTHENTICATION ONLY

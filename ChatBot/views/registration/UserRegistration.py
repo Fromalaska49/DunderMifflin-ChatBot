@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 from django.shortcuts import render
-from django.contrib.auth.models import User
+from ChatBot.models import User
 from ChatBot.views.misc.Constants import *
 from ChatBot.views.util.RegistrationUtil import validate_credentials
 from django.http import HttpResponse
