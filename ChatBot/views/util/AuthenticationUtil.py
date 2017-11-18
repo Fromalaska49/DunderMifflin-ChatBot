@@ -18,12 +18,7 @@ def user_exists(email):
         return False
 
 
-def reset_login_attempts(session):
-
-    email = session.get(EMAIL)
-
-    if email is None:
-        raise Exception('NO EMAIL FOUND IN SESSION WHILE RESETTING LOGIN ATTEMPTS')
+def reset_login_attempts(session, email):
 
     if session.get(LOGIN_ATTEMPTS) is None:
         session[LOGIN_ATTEMPTS] = {}
@@ -34,12 +29,7 @@ def reset_login_attempts(session):
         session[LOGIN_ATTEMPTS][email] = None
 
 
-def increment_login_attempts(session):
-
-    email = session.get(EMAIL)
-
-    if email is None:
-        raise Exception('NO EMAIL FOUND IN SESSION WHILE INCREMENTING LOGIN ATTEMPTS')
+def increment_login_attempts(session, email):
 
     if session.get(LOGIN_ATTEMPTS) is None:
         session[LOGIN_ATTEMPTS] = {}
@@ -55,12 +45,7 @@ def increment_login_attempts(session):
     session.modified = True
 
 
-def login_attempts_exceeded(session):
-
-    email = session.get(EMAIL)
-
-    if email is None:
-        raise Exception('NO EMAIL FOUND IN SESSION WHILE VERIFYING LOGIN ATTEMPTS')
+def login_attempts_exceeded(session, email):
 
     if session.get(LOGIN_ATTEMPTS) is None:
         session[LOGIN_ATTEMPTS] = {}
@@ -70,6 +55,6 @@ def login_attempts_exceeded(session):
     if attempts is None:
         return False
 
-    if attempts > LOGIN_ATTEMPT_LIMIT:
+    if attempts >= LOGIN_ATTEMPT_LIMIT:
         return True
 
