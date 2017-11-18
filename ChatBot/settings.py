@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+from properties import *
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -82,9 +83,9 @@ WSGI_APPLICATION = 'ChatBot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'Chatbot',
-        'USER': 'YOUR_MYSQL_INSTALLATION_USERNAME',
-        'PASSWORD': 'PASSWORD_FOR_YOUR_MYSQL_USER',
+        'NAME': DB_NAME,
+        'USER': DB_USERNAME,
+        'PASSWORD': DB_PASSWORD,
         'HOST': 'localhost',
         'PORT': '3306'
     }
@@ -128,3 +129,19 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Mail Settings
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Host for sending e-mail.
+EMAIL_HOST = 'smtp.gmail.com'
+
+# Port for sending e-mail.
+EMAIL_PORT = 587
+
+# SMTP authentication information for EMAIL_HOST.
+EMAIL_HOST_USER = CHATBOT_MAIL_ADDRESS
+EMAIL_HOST_PASSWORD = CHATBOT_MAIL_PASSWORD
+EMAIL_USE_TLS = True
