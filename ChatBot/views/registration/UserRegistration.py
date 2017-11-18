@@ -2,6 +2,7 @@ from django.views.generic import ListView
 from django.shortcuts import render
 from ChatBot.models import User
 from ChatBot.views.misc.Constants import *
+from ChatBot.views.util.EmailUtil import send_welcome_email
 from ChatBot.views.util.RegistrationUtil import validate_credentials
 from django.http import HttpResponse
 import json
@@ -32,6 +33,7 @@ class UserRegistration(ListView):
                                             )
 
             user.save()
+            send_welcome_email(email)
             response_data[ERROR] = False
             response_data[MSG] = ACCOUNT_CREATED_USER
 
