@@ -14,8 +14,8 @@ $(document).ready(function(){
             success: function(data){
                 console.log(data);
 
-                if(data['error'] === true){
-                    $("#errmsg").html(data['msg']);
+                if(data['ERROR'] === true){
+                    $("#errmsg").html(data['MESSAGE']);
                 }
                 else{
                     $("#registration-div").hide();
