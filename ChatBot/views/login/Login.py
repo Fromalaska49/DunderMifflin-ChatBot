@@ -1,12 +1,12 @@
 from django.views.generic import ListView
-from ChatBot.views.misc.Constants import *
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.http import HttpResponse
 from django.shortcuts import render
-from ChatBot.models import User
 from ChatBot.views.util.EmailUtil import send_account_locked_email
 from ChatBot.views.util.AuthenticationUtil import *
+from ChatBot.views.misc.Constants import *
+from django.utils.crypto import get_random_string
 import json
 
 
@@ -22,20 +22,19 @@ class Login(ListView):
         if account_is_locked(email):
             return_data[MSG] = ACCOUNT_IS_LOCKED
 
-        elif login_attempts_exceeded(request.session, email):
-            return_data[MSG] = ATTEMPTS_EXCEEDED
-
         elif user is None:
             increment_login_attempts(request.session, email)
             return_data[MSG] = COMBINATION_INVALID
 
             if login_attempts_exceeded(request.session, email):
-
+                # lock account if it exists. Otherwise, pretend to lock to not give away DB info
                 if user_exists(email):
+                    token = get_random_string()
                     user = User.objects.get(username=email)
                     user.is_locked = True
+                    user.acct_locked_token = token
                     user.save()
-                    send_account_locked_email(email)
+                    send_account_locked_email(email, request.META[HTTP_HOST], token)
 
                 return_data[MSG] = ATTEMPTS_EXCEEDED
 
@@ -51,7 +50,6 @@ class Login(ListView):
                 return_data[RET_CODE] = ACCOUNT_INACTIVE
 
         return HttpResponse(json.dumps(return_data), content_type="application/json")
-
 
         # Get Request Handler
     def get(self, request):
