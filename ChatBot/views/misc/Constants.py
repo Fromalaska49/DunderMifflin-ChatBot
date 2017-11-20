@@ -26,10 +26,12 @@ LOGIN_STATE = 'LOGIN_STATE'
 INITIAL_STATE = None
 
 # Canned ChatBot Responses That Should Not Require DB Access
-ATTEMPTS_EXCEEDED = 'You have exceeded the amount of login attempts. This account has been locked for security reasons.'
-ACCOUNT_CREATED_USER = 'Your account has been successfully created. Please check your email to activate your account.'
+ATTEMPTS_EXCEEDED = 'You have exceeded the amount of login attempts. This account has been locked for security reasons'
+ACCOUNT_CREATED_USER = 'Your account has been successfully created. Please check your email to activate your account'
+ACCOUNT_IS_LOCKED = 'Your account has been locked for security reasons. Please check you email for instructions on ' \
+                    'unlocking this account.'
 INITIAL_HELP = 'Sorry, I was unable to recognize your input. You may request login or may request account recovery'
-ACCOUNT_NOT_VERIFIED = 'Your account has not yet been verified. Please verify your account before logging in.'
+ACCOUNT_NOT_VERIFIED = 'Your account has not yet been verified. Please verify your account before logging in'
 COMBINATION_INVALID = 'Invalid email/password combination. try again. Please enter your email:'
 LOGIN_SUCCESS = 'Login successful. What can I help you with?'
 ENTER_PASSWORD = 'Please enter your password'

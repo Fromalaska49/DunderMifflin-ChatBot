@@ -7,6 +7,13 @@ from ChatBot.views.misc.Constants import *
 # NEED TO AUTHENTICATE A LOGGED IN USER WHEN UPDATING INFORMATION
 
 
+def account_is_locked(email):
+    if User.objects.filter(username=email, is_locked=True).exists():
+        return True
+
+    return False
+
+
 def user_exists(email):
 
     if email is None:

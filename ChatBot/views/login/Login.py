@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from ChatBot.models import User
 from ChatBot.views.util.EmailUtil import send_account_locked_email
-from ChatBot.views.util.AuthenticationUtil import login_attempts_exceeded, increment_login_attempts, reset_login_attempts
+from ChatBot.views.util.AuthenticationUtil import *
 import json
 
 
@@ -19,7 +19,10 @@ class Login(ListView):
         return_data[ERROR] = True
         user = authenticate(request, username=email, password=password)
 
-        if login_attempts_exceeded(request.session, email):
+        if account_is_locked(email):
+            return_data[MSG] = ACCOUNT_IS_LOCKED
+
+        elif login_attempts_exceeded(request.session, email):
             return_data[MSG] = ATTEMPTS_EXCEEDED
 
         elif user is None:
@@ -28,7 +31,7 @@ class Login(ListView):
 
             if login_attempts_exceeded(request.session, email):
 
-                if User.objects.filter(username=email).exists():
+                if user_exists(email):
                     user = User.objects.get(username=email)
                     user.is_locked = True
                     user.save()
