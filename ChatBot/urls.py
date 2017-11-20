@@ -17,6 +17,7 @@ from django.conf.urls import url
 from .views.registration.UserRegistration import UserRegistration
 from .views.chatbot_service.ChatBotHandler import ChatBotHandler
 from .views.account_management.UnlockAccount import UnlockAccount
+from .views.account_management.VerifyAccount import VerifyAccount
 from .views.login.Login import Login
 from django.contrib import admin
 
@@ -25,6 +26,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', UserRegistration.as_view(), name="register"),
     url(r'^register', UserRegistration.as_view(), name="register"),
+    url(r'^verify/(?P<token>\w{12})', VerifyAccount.as_view(), name="account_verification_handler"),
     url(r'^unlock/(?P<token>\w{12})', UnlockAccount.as_view(), name="account_unlocking_handler"),
     url(r'^login', Login.as_view(), name="login_handler"),
     url(r'^chatbot', ChatBotHandler.as_view(), name="chatbot_handler"),

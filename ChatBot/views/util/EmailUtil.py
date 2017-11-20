@@ -1,8 +1,11 @@
 from django.core.mail import send_mail
 
 
-def send_welcome_email(email):
-    send_mail('Your New ChatBotAccount', 'You have created a new chatbot account.', 'oit@utsa.edu', [email])
+def send_welcome_email(email, host, token):
+    link = 'http://' + host + '/verify/' + token
+    send_mail('Your New ChatBotAccount', 'You have created a new chatbot account. '
+                                         'You may activate this account by clicking '
+                                         'on this link: ' + link, 'oit@utsa.edu', [email])
 
 
 def send_account_locked_email(email, host, token):

@@ -4,6 +4,7 @@ from ChatBot.models import User
 from ChatBot.views.misc.Constants import *
 from ChatBot.views.util.EmailUtil import send_welcome_email
 from ChatBot.views.util.RegistrationUtil import validate_credentials
+from django.utils.crypto import get_random_string
 from django.http import HttpResponse
 import json
 
@@ -24,7 +25,10 @@ class UserRegistration(ListView):
             response_data = password_val
 
         else:
+            token = get_random_string()
             user = User.objects.create_user(
+                                            is_active=False,
+                                            acct_verification_token=token,
                                             first_name=request.POST[FIRST_NAME],
                                             last_name=request.POST[LAST_NAME],
                                             email=email,
@@ -33,7 +37,7 @@ class UserRegistration(ListView):
                                             )
 
             user.save()
-            send_welcome_email(email)
+            send_welcome_email(email, request.META[HTTP_HOST], token)
             response_data[ERROR] = False
             response_data[MSG] = ACCOUNT_CREATED_USER
 
