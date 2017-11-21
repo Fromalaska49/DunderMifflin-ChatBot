@@ -20,21 +20,23 @@ class Login(ListView):
         user = authenticate(request, username=email, password=password)
 
         if account_is_locked(email):
-            return_data[MSG] = ACCOUNT_IS_LOCKED
+            return_data[MSG] = ATTEMPTS_EXCEEDED
 
         elif user is None:
             increment_login_attempts(request.session, email)
             return_data[MSG] = COMBINATION_INVALID
 
             if login_attempts_exceeded(request.session, email):
-                # lock account if it exists. Otherwise, pretend to lock to not give away DB info
+                # lock account if it exists and is active. Otherwise, pretend to lock to not give away DB info
                 if user_exists(email):
-                    token = get_random_string()
                     user = User.objects.get(username=email)
-                    user.is_locked = True
-                    user.acct_locked_token = token
-                    user.save()
-                    send_account_locked_email(email, request.META[HTTP_HOST], token)
+                    # lock account at DB level only if account is active
+                    if user.is_active:
+                        token = get_random_string()
+                        user.is_locked = True
+                        user.acct_locked_token = token
+                        user.save()
+                        send_account_locked_email(email, request.META[HTTP_HOST], token)
 
                 return_data[MSG] = ATTEMPTS_EXCEEDED
 

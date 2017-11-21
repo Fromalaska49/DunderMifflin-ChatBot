@@ -27,7 +27,8 @@ LOGIN_STATE = 'LOGIN_STATE'
 INITIAL_STATE = None
 
 # Canned ChatBot Responses That Should Not Require DB Access
-ATTEMPTS_EXCEEDED = 'You have exceeded the amount of login attempts. This account has been locked for security reasons'
+ATTEMPTS_EXCEEDED = 'You have exceeded the amount of login attempts. This account has been locked for security reasons. ' \
+                    'An email has been sent to this account\'s email address with instructions on ulocking this account'
 ACCOUNT_CREATED_USER = 'Your account has been successfully created. Please check your email to activate your account'
 ACCOUNT_IS_LOCKED = 'Your account has been locked for security reasons. Please check you email for instructions on ' \
                     'unlocking this account.'
