@@ -8,9 +8,9 @@ $(document).ready(function(){
         console.log($("#registrationForm").serialize());
 
         $.ajax({
-            url: '/register',
+            url: '/registration',
             type: 'POST',
-            data: $("#registrationForm").serialize(),
+            data: $("#registrationForm").serialize() + "&ACCOUNT_TYPE=ADMIN",
             success: function(data){
                 console.log(data);
 

@@ -1,5 +1,6 @@
 from ChatBot.views.misc.Constants import *
-from django.contrib.auth.models import User
+from ChatBot.models import User
+from django.contrib.auth.models import Permission
 import re
 
 
@@ -58,3 +59,32 @@ def validate_credentials(email, password, password_conf):
         response_data[ERROR] = False
 
     return response_data
+
+
+def create_cb_user(fname, lname, email, password, token):
+    user = User.objects.create_user(
+        is_active=False,
+        acct_verification_token=token,
+        first_name=fname,
+        last_name=lname,
+        email=email,
+        password=password,
+        username=email  # Django default user table requires username
+    )
+    user.save()
+
+
+def create_admin_user(fname, lname, email, password, token):
+    user = User.objects.create_user(
+        is_active=False,
+        is_staff=True,
+        acct_verification_token=token,
+        first_name=fname,
+        last_name=lname,
+        email=email,
+        password=password,
+        username=email  # Django default user table requires username
+    )
+    permissions = Permission.objects.filter(codename__in=["add_user", "change_user", "delete_user"])
+    user.user_permissions.add(*permissions)
+    user.save()

@@ -24,8 +24,8 @@ from django.contrib import admin
 urlpatterns = [
     #url(r'^admin/login/', Login.as_view(), name="admin_login_handler"), #will override admin login page later
     url(r'^admin/', admin.site.urls),
-    url(r'^$', UserRegistration.as_view(), name="register"),
-    url(r'^register', UserRegistration.as_view(), name="register"),
+    url(r'^$', UserRegistration.as_view(), name="registration"),
+    url(r'^registration', UserRegistration.as_view(), name="registration"),
     url(r'^verify/(?P<token>\w{12})', VerifyAccount.as_view(), name="account_verification_handler"),
     url(r'^unlock/(?P<token>\w{12})', UnlockAccount.as_view(), name="account_unlocking_handler"),
     url(r'^login', Login.as_view(), name="login_handler"),

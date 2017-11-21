@@ -1,9 +1,8 @@
 from django.views.generic import ListView
 from django.shortcuts import render
-from ChatBot.models import User
 from ChatBot.views.misc.Constants import *
-from ChatBot.views.util.EmailUtil import send_welcome_email
-from ChatBot.views.util.RegistrationUtil import validate_credentials
+from ChatBot.views.util.EmailUtil import send_welcome_email, send_admin_verification_email
+from ChatBot.views.util.RegistrationUtil import validate_credentials, create_admin_user, create_cb_user
 from django.utils.crypto import get_random_string
 from django.http import HttpResponse
 import json
@@ -15,6 +14,7 @@ class UserRegistration(ListView):
     # Post Request Handler
     def post(self, request):
         response_data = {}
+        response_data[ERROR] = True
         email = request.POST[EMAIL]
         password = request.POST[PASSWORD]
         password_conf = request.POST[CONFIRM_PASSWORD]
@@ -26,25 +26,25 @@ class UserRegistration(ListView):
 
         else:
             token = get_random_string()
-            user = User.objects.create_user(
-                                            is_active=False,
-                                            acct_verification_token=token,
-                                            first_name=request.POST[FIRST_NAME],
-                                            last_name=request.POST[LAST_NAME],
-                                            email=email,
-                                            password=password,
-                                            username=email              #Django default user table requires username
-                                            )
+            acct_type = request.POST.get(ACCOUNT_TYPE)
+            fname = request.POST.get(FIRST_NAME)
+            lname = request.POST.get(LAST_NAME)
 
-            user.save()
-            send_welcome_email(email, request.META[HTTP_HOST], token)
-            response_data[ERROR] = False
-            response_data[MSG] = ACCOUNT_CREATED_USER
+            if acct_type is None or acct_type == USER:
+                create_cb_user(fname, lname, email, password, token)
+                send_welcome_email(email, request.META[HTTP_HOST], token)
+                response_data[ERROR] = False
+                response_data[MSG] = CREATED_USER
+
+            elif acct_type == ADMIN:
+                create_admin_user(fname, lname, email, password, token)
+                send_admin_verification_email(fname, lname, email, request.META[HTTP_HOST], token)
+                response_data[ERROR] = False
+                response_data[MSG] = CREATED_ADMIN
 
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
-
-    #Get Request Handler
+    # Get Request Handler
     def get(self, request):
 
         # Serve registration registration. give path relative to templates folder

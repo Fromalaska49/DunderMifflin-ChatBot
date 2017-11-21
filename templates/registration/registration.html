@@ -8,42 +8,42 @@
     <div class="row">
         <div id="registration-div" class="col-s-6">
             <h2>Register</h2>
-            <form id="registrationForm" class="fv-form fv-form-bootstrap" action="{% url 'register' %}" method="post">
+            <form id="registrationForm" class="fv-form fv-form-bootstrap" action="{% url 'registration' %}" method="post">
                 {% csrf_token %}
 
                 <div class="col-s-4">
                     <label for="first-name" data-error="wrong" data-success="right">First Name:</label>
                 </div>
                 <div class="col-s-8">
-                    <input type="text" id="first-name" name="first-name" class="form-control" required>
+                    <input type="text" id="first-name" name="FIRST_NAME" class="form-control" required>
                 </div>
 
                 <div class="col-s-4">
                     <label for="last-name" data-error="wrong" data-success="right">Last Name:</label>
                 </div>
                 <div class="col-s-8">
-                    <input type="last-name" id="last-name" name="last-name" class="form-control" required>
+                    <input type="last-name" id="last-name" name="LAST_NAME" class="form-control" required>
                 </div>
 
                 <div class="col-s-4">
                     <label for="email" data-error="wrong" data-success="right">Email:</label>
                 </div>
                 <div class="col-s-8">
-                    <input type="email" id="email" name="email" class="form-control" required>
+                    <input type="email" id="email" name="EMAIL" class="form-control" required>
                 </div>
 
                 <div class="col-s-4">
                     <label for="email" data-error="wrong" data-success="right">Password:</label>
                 </div>
                 <div class="col-s-8">
-                    <input type="password" id="password" name="password" class="form-control" minlength="6" maxlength="25" required>
+                    <input type="password" id="password" name="PASSWORD" class="form-control" minlength="6" maxlength="25" required>
                 </div>
 
                 <div class="col-s-4">
                     <label for="email" data-error="wrong" data-success="right">Confirm Password:</label>
                 </div>
                 <div class="col-s-8">
-                    <input type="password" id="confirm-password" name="confirm-password" class="form-control" minlength="6" maxlength="25" required>
+                    <input type="password" id="confirm-password" name="CONFIRM_PASSWORD" class="form-control" minlength="6" maxlength="25" required>
                 </div>
                 <br>
                 <input type="submit" class="btn">
