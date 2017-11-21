@@ -5,6 +5,7 @@ from django.contrib.auth.models import User as AuthUser
 
 
 class User(AuthUser):
+    acct_active = models.BooleanField(default=False)
     is_locked = models.BooleanField(default=False)
     acct_locked_token = models.CharField(max_length=12, default="")
     acct_verification_token = models.CharField(max_length=12, default="")
