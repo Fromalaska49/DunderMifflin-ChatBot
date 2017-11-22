@@ -16,7 +16,7 @@ class RequestChange(ListView):
 
         return_data = {}
         return_data[ERROR] = False
-        return_data[MSG] = PASS_RESET_SUCCESS
+        return_data[MSG] = PASS_RESET_REQ_SUCCESS
         change_type = request.POST.get(CHANGE_TYPE)  # will also handle regular info updates later. Psswd only for now.
         email = request.POST.get(EMAIL)
         token = get_random_string()
