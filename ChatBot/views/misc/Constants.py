@@ -76,3 +76,7 @@ PASS_MATCH_ERROR = 'Your passwords do not match'
 #Email Error Messages
 EMAIL_TAKEN_ERROR = 'This email is already in use'
 EMAIL_INVALID_ERROR = 'You must provide a valid email address'
+
+#Name Error Messages
+FNAME_ERROR = 'Please enter a first name'
+LNAME_ERROR = 'Please entere a last name'

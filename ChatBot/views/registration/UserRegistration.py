@@ -2,7 +2,7 @@ from django.views.generic import ListView
 from django.shortcuts import render
 from ChatBot.views.misc.Constants import *
 from ChatBot.views.util.EmailUtil import send_welcome_email, send_admin_verification_email
-from ChatBot.views.util.RegistrationUtil import validate_credentials, create_admin_user, create_cb_user
+from ChatBot.views.util.RegistrationUtil import validate_reg_form, create_admin_user, create_cb_user
 from django.utils.crypto import get_random_string
 from django.http import HttpResponse
 import json
@@ -15,20 +15,20 @@ class UserRegistration(ListView):
     def post(self, request):
         response_data = {}
         response_data[ERROR] = True
+        fname = request.POST.get(FIRST_NAME)
+        lname = request.POST.get(LAST_NAME)
         email = request.POST[EMAIL]
         password = request.POST[PASSWORD]
         password_conf = request.POST[CONFIRM_PASSWORD]
 
-        password_val = validate_credentials(email, password, password_conf)
+        val_object = validate_reg_form(email, password, password_conf, fname, lname)
 
-        if password_val[ERROR]:
-            response_data = password_val
+        if val_object[ERROR]:
+            response_data = val_object
 
         else:
             token = get_random_string()
             acct_type = request.POST.get(ACCOUNT_TYPE)
-            fname = request.POST.get(FIRST_NAME)
-            lname = request.POST.get(LAST_NAME)
 
             if acct_type is None or acct_type == USER:
                 create_cb_user(fname, lname, email, password, token)

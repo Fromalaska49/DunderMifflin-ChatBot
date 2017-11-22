@@ -36,21 +36,25 @@ def validate_password(password):
     return return_structure
 
 
-def validate_credentials(email, password, password_conf):
+def validate_reg_form(email, password, password_conf, fname, lname):
     response_data = {}
+    response_data[ERROR] = True
     password_val = validate_password(password)
 
     if not validate_email(email):
-        response_data[ERROR] = True
         response_data[MSG] = EMAIL_INVALID_ERROR
 
     elif User.objects.filter(email=email).exists():
-        response_data[ERROR] = True
         response_data[MSG] = EMAIL_TAKEN_ERROR
 
     elif password != password_conf:
-        response_data[ERROR] = True
         response_data[MSG] = PASS_MATCH_ERROR
+
+    elif fname is None or len(fname.strip()) == 0:
+        response_data[MSG] = FNAME_ERROR
+
+    elif lname is None or len(lname.strip()) == 0:
+        response_data[MSG] = LNAME_ERROR
 
     elif password_val[ERROR] is True:
         response_data = password_val
