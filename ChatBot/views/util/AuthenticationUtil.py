@@ -14,6 +14,13 @@ def account_is_locked(email):
     return False
 
 
+def account_is_active(email):
+    if User.objects.filter(username=email, acct_active=True).exists():
+        return True
+
+    return False
+
+
 def user_exists(email):
 
     if email is None:

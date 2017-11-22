@@ -42,14 +42,15 @@ class Login(ListView):
 
         else:
             reset_login_attempts(request.session, email)
-            return_data[ERROR] = False
 
-            if user.is_active:
+            if account_is_active(email):
+                return_data[ERROR] = False
                 login(request, user)
                 return_data[MSG] = LOGIN_SUCCESS
 
             else:
-                return_data[RET_CODE] = ACCOUNT_INACTIVE
+                return_data[ERROR] = True
+                return_data[MSG] = ACCOUNT_NOT_VERIFIED
 
         return HttpResponse(json.dumps(return_data), content_type="application/json")
 

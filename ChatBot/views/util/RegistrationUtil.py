@@ -63,7 +63,6 @@ def validate_credentials(email, password, password_conf):
 
 def create_cb_user(fname, lname, email, password, token):
     user = User.objects.create_user(
-        is_active=False,
         acct_verification_token=token,
         first_name=fname,
         last_name=lname,
@@ -76,7 +75,6 @@ def create_cb_user(fname, lname, email, password, token):
 
 def create_admin_user(fname, lname, email, password, token):
     user = User.objects.create_user(
-        is_active=False,
         is_staff=True,
         acct_verification_token=token,
         first_name=fname,

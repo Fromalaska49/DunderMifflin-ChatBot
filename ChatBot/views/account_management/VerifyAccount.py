@@ -15,12 +15,11 @@ class VerifyAccount(ListView):
 
         if User.objects.filter(acct_verification_token=token).exists():
             user = User.objects.get(acct_verification_token=token)
-            user.is_active = True
+            user.acct_active = True
             user.acct_verification_token = ''
             reset_login_attempts(request.session, user.email)
             user.save()
             return HttpResponse("Your account has been successfully verified!")
-
 
         else:
             raise Http404()
