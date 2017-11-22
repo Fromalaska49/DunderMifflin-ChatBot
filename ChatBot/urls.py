@@ -18,6 +18,7 @@ from .views.registration.UserRegistration import UserRegistration
 from .views.chatbot_service.ChatBotHandler import ChatBotHandler
 from .views.account_management.UnlockAccount import UnlockAccount
 from .views.account_management.VerifyAccount import VerifyAccount
+from .views.account_management.RequestChange import RequestChange
 from .views.login.Login import Login
 from django.contrib import admin
 
@@ -26,6 +27,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', UserRegistration.as_view(), name="registration"),
     url(r'^registration', UserRegistration.as_view(), name="registration"),
+    url(r'^requestchange', RequestChange.as_view(), name="update_info_handler"),
     url(r'^verify/(?P<token>\w{12})', VerifyAccount.as_view(), name="account_verification_handler"),
     url(r'^unlock/(?P<token>\w{12})', UnlockAccount.as_view(), name="account_unlocking_handler"),
     url(r'^login', Login.as_view(), name="login_handler"),

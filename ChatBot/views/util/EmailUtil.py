@@ -37,3 +37,10 @@ def send_admin_verified_email(email, host):
               [email])
 
 
+def send_pass_reset_email(email, host, token):
+    link = 'http://' + host + '/reset/' + token
+    send_mail('Reset Your ChatBot Account Password',
+              'You have indicated that you would like to reset your password. '
+              'You may reset your password by clicking '
+              'on this link: ' + link, CHATBOT_EMAIL, [email])
+
