@@ -29,3 +29,11 @@ def send_account_locked_email(email, host, token):
                                                       'on this link: ' + link, CHATBOT_EMAIL, [email])
 
 
+def send_admin_verified_email(email, host):
+    send_mail('ChatBot Administrator Account Activated',
+              'Your ChatBot Administrator account has been'
+              'successfully activated by UTSA OIT Personnel.',
+              CHATBOT_EMAIL,
+              [email])
+
+
