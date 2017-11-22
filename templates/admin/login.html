@@ -1,0 +1,20 @@
+{% extends 'main_template.html' %}
+
+{% block content %}
+    <form method="post" action="/login">
+        {% csrf_token %}
+        email:<input name="EMAIL">
+        <br>
+        password:<input name="PASSWORD">
+        <input type="submit">
+    </form>
+    <br><br>
+    request password change
+    <form method="post" action="/requestchange">
+        {% csrf_token %}
+        email: <input name="EMAIL">
+        <input type="hidden" name="CHANGE_TYPE" value="PASSWORD">
+        <input type="submit">
+    </form>
+
+{% endblock %}

@@ -24,7 +24,7 @@ from .views.login.Login import Login
 from django.contrib import admin
 
 urlpatterns = [
-    #url(r'^admin/login/', Login.as_view(), name="admin_login_handler"), #will override admin login page later
+    url(r'^admin/login/', Login.as_view(), name="admin_login_handler"),  # will override admin login page
     url(r'^admin/', admin.site.urls),
     url(r'^$', UserRegistration.as_view(), name="registration"),
     url(r'^registration', UserRegistration.as_view(), name="registration"),

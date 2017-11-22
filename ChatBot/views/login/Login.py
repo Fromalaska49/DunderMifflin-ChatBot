@@ -57,5 +57,5 @@ class Login(ListView):
         # Get Request Handler
     def get(self, request):
         # Serve registration registration. give path relative to templates folder
-        return render(request, "login.html")
+        return render(request, "admin/login.html")
 
