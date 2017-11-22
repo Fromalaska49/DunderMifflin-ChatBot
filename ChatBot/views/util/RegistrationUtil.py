@@ -2,7 +2,7 @@ from ChatBot.views.misc.Constants import *
 from ChatBot.models import User
 from django.contrib.auth.models import Permission
 import re
-
+from django.utils import timezone
 
 def validate_email(email):
     matcher = re.compile(r'^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
@@ -68,6 +68,7 @@ def validate_reg_form(email, password, password_conf, fname, lname):
 def create_cb_user(fname, lname, email, password, token):
     user = User.objects.create_user(
         acct_verification_token=token,
+        acct_verification_token_stamp=timezone.now(),
         first_name=fname,
         last_name=lname,
         email=email,
@@ -81,6 +82,7 @@ def create_admin_user(fname, lname, email, password, token):
     user = User.objects.create_user(
         is_staff=True,
         acct_verification_token=token,
+        acct_verification_token_stamp=timezone.now(),
         first_name=fname,
         last_name=lname,
         email=email,

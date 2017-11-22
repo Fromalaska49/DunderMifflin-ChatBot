@@ -7,6 +7,7 @@ from ChatBot.views.util.EmailUtil import send_account_locked_email
 from ChatBot.views.util.AuthenticationUtil import *
 from ChatBot.views.misc.Constants import *
 from django.utils.crypto import get_random_string
+from django.utils import timezone
 import json
 
 
@@ -35,6 +36,7 @@ class Login(ListView):
                         token = get_random_string()
                         user.is_locked = True
                         user.acct_locked_token = token
+                        user.acct_locked_token_stamp = timezone.now()
                         user.save()
                         send_account_locked_email(email, request.META[HTTP_HOST], token)
 

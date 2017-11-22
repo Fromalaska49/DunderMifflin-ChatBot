@@ -6,6 +6,7 @@ from django.utils.crypto import get_random_string
 from ChatBot.views.misc.Constants import *
 from ChatBot.views.util.EmailUtil import send_pass_reset_email
 from ChatBot.views.util.RegistrationUtil import validate_email
+from django.utils import timezone
 import json
 
 
@@ -32,6 +33,7 @@ class RequestChange(ListView):
         elif User.objects.filter(username=email).exists():
             user = User.objects.get(username=email)
             user.pass_reset_token = token
+            user.pass_reset_token_stamp = timezone.now()
             user.save()
             send_pass_reset_email(email, request.META[HTTP_HOST], token)
 
