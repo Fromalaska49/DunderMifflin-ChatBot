@@ -75,6 +75,7 @@ input[type=text]:active, input[type=password]:active, textarea:active, select:ac
 	outline-width: 2px;
 	outline-color: #002244;
 	box-shadow: 0px 0px 0px 2px #002244;
+	border-color: #ffffff;
 }
 
 #registrationForm .row {
