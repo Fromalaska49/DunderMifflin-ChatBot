@@ -26,7 +26,7 @@ SECRET_KEY = 'c^-!shp+je40m5kyxw+_2=s-$^-otrm1dm0ut@1(o02b(_*q)x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [u'0.0.0.0', 'localhost', '127.0.0.1', DB_HOST]
+ALLOWED_HOSTS = [u'0.0.0.0', 'localhost', '127.0.0.1', 'localhost']
 
 APPEND_SLASH = False
 
@@ -83,10 +83,10 @@ WSGI_APPLICATION = 'ChatBot.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': DB_NAME,
-        'USER': DB_USERNAME,
-        'PASSWORD': DB_PASSWORD,
-        'HOST': DB_HOST,
+        'NAME': 'ChatBot',
+        'USER': 'chatbot_appl',
+        'PASSWORD': 'chatbot_applpass',
+        'HOST': 'localhost',
         'PORT': '3306'
     }
 }

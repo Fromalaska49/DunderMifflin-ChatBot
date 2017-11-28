@@ -16,6 +16,8 @@ class ChatBotHandler(ListView):
         question = request.POST[QUESTION_TEXT]
         question = TextBlob(str(question))
         question = question.correct()
+        return_data = {}
+        return_data[ERROR] = False
 
         logging.debug('Processing question: %s\n', question)
 
@@ -35,7 +37,8 @@ class ChatBotHandler(ListView):
 
         logging.debug('Responding with: %s\n', response)
 
-        return HttpResponse(json.dumps(response), content_type="application/json")
+        return_data[MSG] = response
+        return HttpResponse(json.dumps(return_data), content_type="application/json")
 
     """
     Standard get function.

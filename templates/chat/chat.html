@@ -39,6 +39,7 @@
 	function SendQuestion() {
 		var q = $("#query").serialize();
 		question = $("#question").val();
+		console.log("question = " + question);
 		$.ajax({
 			url: "/chatbot",
 			type: "POST",
