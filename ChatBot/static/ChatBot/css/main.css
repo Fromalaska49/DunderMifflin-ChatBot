@@ -33,6 +33,13 @@ main {
 	}
 }
 
+button, input, select, textarea {
+	-webkit-transition: all .2s ease;
+	-moz-transition: all .2s ease;
+	-o-transition: all .2s ease;
+	transition: all .2s ease;
+}
+
 button, input[type=button], input[type=submit] {
 	position: relative;
 	top: 0px;
@@ -44,10 +51,6 @@ button, input[type=button], input[type=submit] {
 	margin: 0px;
 	border-radius: 2px;
 	cursor: pointer;
-	-webkit-transition: all .2s ease;
-	-moz-transition: all .2s ease;
-	-o-transition: all .2s ease;
-	transition: all .2s ease;
 }
 
 button:hover, input[type=button]:hover, input[type=submit]:hover, button:active, input[type=button]:active, input[type=submit]:active {
