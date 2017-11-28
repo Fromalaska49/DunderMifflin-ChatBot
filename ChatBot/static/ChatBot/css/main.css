@@ -78,7 +78,7 @@ input[type=text]:active, input[type=password]:active, textarea:active, select:ac
 	border-color: #ffffff;
 }
 
-#registrationForm .row {
+#registrationForm .row, #passwordReset .row {
 	background-color: inherit;
 	padding: 10px 0px;
 }
