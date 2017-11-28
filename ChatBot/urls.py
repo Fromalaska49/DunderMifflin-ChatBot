@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from .views.registration.UserRegistration import UserRegistration
+from .views.delete_user.DeleteUser import DeleteUser
 from .views.chatbot_service.ChatBotHandler import ChatBotHandler
 from .views.account_management.UnlockAccount import UnlockAccount
 from .views.account_management.VerifyAccount import VerifyAccount
@@ -35,4 +36,5 @@ urlpatterns = [
     url(r'^unlock/(?P<token>\w{12})', UnlockAccount.as_view(), name="account_unlocking_handler"),
     url(r'^login', Login.as_view(), name="login_handler"),
     url(r'^chatbot', ChatBotHandler.as_view(), name="chatbot_handler"),
+    url(r'^login/delete/', DeleteUser.as_view(), name="delete_user"),
 ]
