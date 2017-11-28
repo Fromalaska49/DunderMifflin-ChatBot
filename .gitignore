@@ -6,3 +6,5 @@ __pycache__/
 .DS_Store
 */migrations/
 properties.py
+requirements.txt
+startserver.sh

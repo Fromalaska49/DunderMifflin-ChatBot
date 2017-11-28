@@ -26,7 +26,7 @@ SECRET_KEY = 'c^-!shp+je40m5kyxw+_2=s-$^-otrm1dm0ut@1(o02b(_*q)x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [u'0.0.0.0']
 
 APPEND_SLASH = False
 
@@ -86,7 +86,7 @@ DATABASES = {
         'NAME': DB_NAME,
         'USER': DB_USERNAME,
         'PASSWORD': DB_PASSWORD,
-        'HOST': 'localhost',
+        'HOST': 'db',
         'PORT': '3306'
     }
 }
