@@ -13,9 +13,11 @@ class ChatBotHandler(ListView):
     Interprets user question to return an appropriate response.
     """
     def post(self, request):
-        question = request.POST.get[QUESTION_TEXT]
+        question = request.POST[QUESTION_TEXT]
         question = TextBlob(str(question))
         question = question.correct()
+        return_data = {}
+        return_data[ERROR] = False
 
         logging.debug('Processing question: %s\n', question)
 
@@ -35,13 +37,14 @@ class ChatBotHandler(ListView):
 
         logging.debug('Responding with: %s\n', response)
 
-        return HttpResponse(json.dumps(response), content_type="application/json")
+        return_data[MSG] = response
+        return HttpResponse(json.dumps(return_data), content_type="application/json")
 
     """
     Standard get function.
     """
     def get(self, request):
-        pass
+        return render(request, "chat/chat.html")
 
     """
     Returns a count of keywords in a sentence.
