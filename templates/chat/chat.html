@@ -16,8 +16,8 @@
 					</div>
 				</div>
 				<form id="query">
+					{% csrf_token %}
 					<div class="row" style="padding:10px;background-color:#cdcdcd;">
-						{% csrf_token %}
 						<div id="user-entry" class="col-sm-9">
 							<input type="text" id="question" name="QUESTION_TEXT" style="width:100%;height:44px;">
 						</div>
@@ -35,22 +35,23 @@
 {% endblock %}
 
 {% block javascript %}
-	<script>
+	<script type="text/javascript">
 	function SendQuestion() {
 		var q = $("#query").serialize();
+		question = $("#question").val();
 		$.ajax({
 			url: "/chatbot",
 			type: "POST",
 			data: q,
 			success: function(data) {
 				console.log(data);
-				var str = "You: " + q + "<br>";
-				$("#history").html($("#history").html() + str + "OIT: " + data["MESSAGE"] + "<br>");
+				var str = "You: " + $("<div></div>").text(question).html() + "<br>";
+				$("#history").append(str + "OIT: " + data["MESSAGE"] + "<br>");
 			},
 			error: function(data) {
 				console.log(data);
-				var str = "You: " + q + "<br>";
-				$("#history").html($("#history").html() + str + "OIT: " + data["MESSAGE"] + "<br>");
+				var str = "You: " + $("<div></div>").text(question).html() + "<br>";
+				$("#history").append(str + "OIT: " + data["MESSAGE"] + "<br>");
 			}
 		});
 	}
