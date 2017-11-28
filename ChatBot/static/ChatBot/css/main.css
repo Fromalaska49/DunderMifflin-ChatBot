@@ -32,3 +32,47 @@ main {
 		margin-top: 36px;
 	}
 }
+
+button, input[type=button], input[type=submit] {
+	position: relative;
+	top: 0px;
+	box-shadow: 0px 0px 0px #000000;
+	border-style: none;
+	background-color: #f47321;
+	color: #ffffff;
+	padding: 10px;
+	margin: 0px;
+	border-radius: 2px;
+	cursor: pointer;
+	-webkit-transition: all .2s ease;
+	-moz-transition: all .2s ease;
+	-o-transition: all .2s ease;
+	transition: all .2s ease;
+}
+
+button:hover, input[type=button]:hover, input[type=submit]:hover, button:active, input[type=button]:active, input[type=submit]:active {
+	top: -3px;
+	box-shadow: 0px 3px 10px -3px #000000;
+	background-color: #f47321;
+	color: #ffffff;
+}
+
+input[type=text], input[type=password], textarea, select {
+	outline-style: none;
+	outline-width: 0px;
+	outline-color: #002244;
+	box-shadow: 0px 0px 0px 0px #002244;
+	border-radius: 0px;
+	border-radius: 2px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: #cccccc;
+	padding: 2px 6px 2px 6px;
+}
+
+input[type=text]:active, input[type=password]:active, textarea:active, select:active, input[type=text]:focus, input[type=password]:focus, textarea:focus, select:focus {
+	outline-style: none;
+	outline-width: 2px;
+	outline-color: #002244;
+	box-shadow: 0px 0px 0px 2px #002244;
+}
