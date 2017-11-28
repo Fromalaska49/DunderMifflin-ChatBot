@@ -13,7 +13,7 @@ class ChatBotHandler(ListView):
     Interprets user question to return an appropriate response.
     """
     def post(self, request):
-        question = request.POST.get[QUESTION_TEXT]
+        question = request.POST[QUESTION_TEXT]
         question = TextBlob(str(question))
         question = question.correct()
 
@@ -41,7 +41,7 @@ class ChatBotHandler(ListView):
     Standard get function.
     """
     def get(self, request):
-        pass
+        return render(request, "chat/chat.html")
 
     """
     Returns a count of keywords in a sentence.
