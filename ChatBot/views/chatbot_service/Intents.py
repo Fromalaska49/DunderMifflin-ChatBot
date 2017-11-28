@@ -9,7 +9,7 @@ REQUEST_ACCESS = {KEYWORDS: ['request', 'access'],
                   RESPONSE: 'You can submit an access request form at http://aam.utsa.edu'}
 
 UPLOAD_GRADES = {KEYWORDS: ['upload', 'grades'],
-                 RESPONSE: 'Information about uploading gades can be found at https://utsacloudpublic.com/Pages/OnlineLearning/FacultyAndStaff/GradeTransfer.aspx'}
+                 RESPONSE: 'Information about uploading grades can be found at https://utsacloudpublic.com/Pages/OnlineLearning/FacultyAndStaff/GradeTransfer.aspx'}
 
 intents = [UPDATE_DIRECTORY, REQUEST_ACCESS, UPLOAD_GRADES]
 
