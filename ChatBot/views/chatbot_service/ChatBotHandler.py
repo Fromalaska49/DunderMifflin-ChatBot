@@ -33,7 +33,8 @@ class ChatBotHandler(ListView):
 
         if max_count == 0:
             logging.debug('Could not find suitable response.')
-            return HttpResponse(json.dumps(UNKNOWN_REQUEST), content_type="application/json")
+            return_data[MSG] = UNKNOWN_REQUEST
+            return HttpResponse(json.dumps(return_data), content_type="application/json")
 
         logging.debug('Responding with: %s\n', response)
 
