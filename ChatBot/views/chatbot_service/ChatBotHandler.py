@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -8,7 +9,11 @@ import apiai
 
 logger = logging.getLogger(__name__)
 
-class ChatBotHandler(ListView):
+class ChatBotHandler(LoginRequiredMixin, ListView):
+    #only works for admin atm
+    #restricts chatbot usage to only logged in users
+    login_url = 'login_handler'
+    redirect_field_name = 'redirect_to'
 
     def post(self, request):
         """ Standard post function. """
