@@ -50,7 +50,10 @@ class Login(ListView):
                 login(request, user)
                 return_data[MSG] = LOGIN_SUCCESS
                 redirect_to = reverse("chatbot_handler")
+                '''
+                # redirect should be handled by JS on successful login
                 return HttpResponseRedirect(redirect_to)
+                '''
 
             else:
                 return_data[ERROR] = True

@@ -25,22 +25,22 @@ CHATBOT_EMAIL = 'chatbotutsa@mailinator.com'
 
 
 # Canned ChatBot Responses That Should Not Require DB Access
-ATTEMPTS_EXCEEDED = 'You have exceeded the amount of login attempts. This account has been locked for security reasons. ' \
-                    'An email has been sent to this account\'s email address with instructions on ulocking this account'
-CREATED_ADMIN = 'Your account has been sucessfully created and will become active once an OIT staff member activates it'
+ATTEMPTS_EXCEEDED = 'You have exceeded the maximum number of login attempts. This account has been locked for security reasons. ' \
+                    'An email has been sent to this account\'s email address with instructions for ulocking this account.'
+CREATED_ADMIN = 'Your account has been sucessfully created and will become active once an OIT staff member activates it.'
 ACCOUNT_IS_LOCKED = 'Your account has been locked for security reasons. Please check you email for instructions on ' \
                     'unlocking this account.'
 PASS_RESET_REQ_SUCCESS = 'An email with password reset instructions will be sent to the email address provided if an account' \
-                     ' with that email address exists'
-ACCOUNT_NOT_VERIFIED = 'Your account has not yet been verified. Please verify your account before logging in'
-CREATED_USER = 'Your account has been successfully created. Please check your email to activate your account'
-COMBINATION_INVALID = 'Invalid email/password combination. try again. Please enter your email:'
-PASS_RESET_SUCCESS = 'Your password has been successfully updated'
+                     ' with that email address exists.'
+ACCOUNT_NOT_VERIFIED = 'Your account has not yet been verified. Please verify your account before logging in.'
+CREATED_USER = 'Your account has been successfully created. Please check your email to activate your account.'
+COMBINATION_INVALID = 'The email or password was incorrect.'
+PASS_RESET_SUCCESS = 'Your password has been successfully updated.'
 LOGIN_SUCCESS = 'Login successful. What can I help you with?'
-DELETE_SUCESS = 'User has been succesfully deleted. You might regret this'
-ENTER_PASSWORD = 'Please enter your password'
+DELETE_SUCESS = 'User has been succesfully deleted.'
+ENTER_PASSWORD = 'Please enter your password.'
 INCORRECT_PARAMETERS = 'Incorrect parameters'
-ENTER_EMAIL = 'Please enter your email'
+ENTER_EMAIL = 'Please enter your email.'
 
 
 # Constants Used in General Statements
