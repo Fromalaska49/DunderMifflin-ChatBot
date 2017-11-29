@@ -1,7 +1,8 @@
+from django.urls import reverse
 from django.views.generic import ListView
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from ChatBot.views.util.EmailUtil import send_account_locked_email
 from ChatBot.views.util.AuthenticationUtil import *
@@ -12,7 +13,6 @@ import json
 
 
 class Login(ListView):
-
     def post(self, request):
         email = request.POST[EMAIL]
         password = request.POST[PASSWORD]
@@ -49,6 +49,8 @@ class Login(ListView):
                 return_data[ERROR] = False
                 login(request, user)
                 return_data[MSG] = LOGIN_SUCCESS
+                redirect_to = reverse("chatbot_handler")
+                return HttpResponseRedirect(redirect_to)
 
             else:
                 return_data[ERROR] = True
@@ -57,7 +59,7 @@ class Login(ListView):
         return HttpResponse(json.dumps(return_data), content_type="application/json")
 
         # Get Request Handler
+
     def get(self, request):
         # Serve registration registration. give path relative to templates folder
         return render(request, "admin/login.html")
-

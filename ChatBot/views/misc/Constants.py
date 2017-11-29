@@ -39,6 +39,7 @@ CREATED_USER = 'Your account has been successfully created. Please check your em
 COMBINATION_INVALID = 'Invalid email/password combination. try again. Please enter your email:'
 PASS_RESET_SUCCESS = 'Your password has been successfully updated'
 LOGIN_SUCCESS = 'Login successful. What can I help you with?'
+DELETE_SUCESS = 'User has been succesfully deleted. You might regret this'
 ENTER_PASSWORD = 'Please enter your password'
 INCORRECT_PARAMETERS = 'Incorrect parameters'
 ENTER_EMAIL = 'Please enter your email'

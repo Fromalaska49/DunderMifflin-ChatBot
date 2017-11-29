@@ -1,34 +1,26 @@
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.decorators import login_required
+# from django.forms import forms
+from django.contrib.auth.models import User
+from django.http import request
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy
 from django.views.generic import DeleteView
-from django.http import Http404, HttpResponseRedirect
 
 
-from django.views.generic import ListView
-from django.contrib.auth import authenticate
-from django.contrib.auth import login
-from django.http import HttpResponse
-from django.shortcuts import render
-from ChatBot.views.util.EmailUtil import send_account_locked_email
-from ChatBot.views.util.AuthenticationUtil import *
-from ChatBot.views.misc.Constants import *
-from django.utils.crypto import get_random_string
-from django.utils import timezone
-import json
+# from django.http import Http404, HttpResponseRedirect
+# from django.shortcuts import render
+#
+# from ChatBot.views.misc.Constants import ERROR
+from ChatBot import models
 
 
 class DeleteUser(DeleteView):
+    model = models.User
+    success_url = reverse_lazy('login_handler')
+    success_message = "User has been deleted successfully."
+    template_name = 'delete\delete_user.html'
 
-    @login_required
-    def post(self, request):
-        self.object = self.get_object()
-        if self.object.user == request.user:
-            self.object.delete()
-            return HttpResponseRedirect(self.get_success_url())
-        else:
-            raise Http404
-            # or return HttpResponse('404_url')
 
-        # Get Request Handler
-    def get(self, request):
-        # Serve registration registration. give path relative to templates folder
-        return render(request, "delete/delete_user.html")
+    def get_object(self):
+        messages.success(self.request, self.success_message)
+        return get_object_or_404(User, pk=self.request.user.id)

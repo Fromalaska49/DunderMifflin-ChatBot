@@ -4,38 +4,45 @@
 {% block title %}ChatBot Web Interface{% endblock %}
 
 {% block content %}
-	<div class="container">
-		<div class="row">
-	        <div class="col-sm-1 col-md-2 col-lg-3 hidden-xs-down spacer">
-	        </div>
-	        <div id="chatbot-container" class="col-sm-10 col-md-8 col-lg-6 col-xs-12" style="border-style:solid;border-color:black;border-width:1px;background-color:#ffffff;">
-	        	<div class="row">
-					<div id="history-window" class="col-sm-12">
-						<div id="history" style="display: block;height: 300px;background-color:#ffffff;">
-						</div>
-					</div>
-				</div>
-				<form id="query">
-					{% csrf_token %}
-					<div class="row" style="padding:10px;background-color:#cdcdcd;">
-						<div id="user-entry" class="col-sm-9">
-							<input type="text" id="question" name="QUESTION_TEXT" style="width:100%;height:44px;" placeholder="How can I help?">
-						</div>
-						<div id="submit-div" class="col-sm-3" style="text-align:center;">
-							<input type="button" value="submit" onclick="SendQuestion()" style="outline-style:none;">
-						</div>
-					</div>
-				</form>
-			</div>
-	        <div class="col-sm-1 col-md-2 col-lg-3 hidden-xs-down spacer">
-	        </div>
-		</div>
-	</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-1 col-md-2 col-lg-3 hidden-xs-down spacer">
+        </div>
+        <div id="chatbot-container" class="col-sm-10 col-md-8 col-lg-6 col-xs-12"
+             style="border-style:solid;border-color:black;border-width:1px;background-color:#ffffff;">
+            <div class="row">
+                <div id="history-window" class="col-sm-12">
+                    <div id="history" style="display: block;height: 300px;background-color:#ffffff;">
+                    </div>
+                </div>
+            </div>
+            <form id="query">
+                {% csrf_token %}
+                <div class="row" style="padding:10px;background-color:#cdcdcd;">
+                    <div id="user-entry" class="col-sm-9">
+                        <input type="text" id="question" name="QUESTION_TEXT" style="width:100%;height:44px;"
+                               placeholder="How can I help?">
+                    </div>
+                    <div id="submit-div" class="col-sm-3" style="text-align:center;">
+                        <input type="button" value="submit" onclick="SendQuestion()" style="outline-style:none;">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--Hey are you sure you want to delete {{ object.title }}?-->
+        <button type="button">
+            <a href="/delete_user_handler">Delete</a>
+        </button>
+        <!-- onclick="changePW(false)">Delete User</> -->
+        <div class="col-sm-1 col-md-2 col-lg-3 hidden-xs-down spacer">
+        </div>
+    </div>
+</div>
 
 {% endblock %}
 
 {% block javascript %}
-	<script type="text/javascript">
+<script type="text/javascript">
 	function SendQuestion() {
 		var q = $("#query").serialize();
 		question = $("#question").val();
@@ -56,5 +63,7 @@
 			}
 		});
 	}
-	</script>
+
+
+</script>
 {% endblock %}
