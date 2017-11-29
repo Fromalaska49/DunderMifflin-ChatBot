@@ -16,8 +16,6 @@ MSG = 'MESSAGE'
 ADMIN = 'ADMIN'
 USER = 'USER'
 QUESTION_TEXT = 'QUESTION_TEXT'
-KEYWORDS = 'KEYWORDS'
-RESPONSE = 'RESPONSE'
 
 # Toy UTSA OIT Email
 OIT_EMAIL = 'oitutsa@mailinator.com'
@@ -65,3 +63,7 @@ EMAIL_INVALID_ERROR = 'You must provide a valid email address'
 # Name Error Messages
 FNAME_ERROR = 'Please enter a first name'
 LNAME_ERROR = 'Please entere a last name'
+
+
+# API.AI client key
+API_KEY = '8f652156aa8a434daaf9e9d3eb174313'
