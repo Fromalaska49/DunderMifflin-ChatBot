@@ -8,3 +8,4 @@ __pycache__/
 properties.py
 requirements.txt
 startserver.sh
+*.log

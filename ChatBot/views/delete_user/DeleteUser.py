@@ -18,7 +18,7 @@ class DeleteUser(DeleteView):
     model = models.User
     success_url = reverse_lazy('login_handler')
     success_message = "User has been deleted successfully."
-    template_name = 'delete\delete_user.html'
+    template_name = 'delete/delete_user.html'
 
 
     def get_object(self):
