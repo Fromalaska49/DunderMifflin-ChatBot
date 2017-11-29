@@ -145,3 +145,46 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = CHATBOT_MAIL_ADDRESS
 EMAIL_HOST_PASSWORD = CHATBOT_MAIL_PASSWORD
 EMAIL_USE_TLS = True
+
+# Logging configuration
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {
+        "simple": {
+            "format": "%(asctime)s: %(levelname)s - %(name)s - %(message)s"
+        }
+    },
+
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "simple",
+            "stream": "ext://sys.stdout"
+        },
+
+        "info_file_handler": {
+            "class": "logging.handlers.RotatingFileHandler",
+            "level": "INFO",
+            "formatter": "simple",
+            "filename": "chatbot.log",
+            "maxBytes": 10485760,
+            "backupCount": 20,
+            "encoding": "utf8"
+        }
+    },
+
+    "loggers": {
+        "my_module": {
+            "level": "ERROR",
+            "handlers": ["console"],
+            "propagate": "no"
+        }
+    },
+
+    "root": {
+        "level": "DEBUG",
+        "handlers": ["console", "info_file_handler"]
+    }
+}

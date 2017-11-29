@@ -1,54 +1,39 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView
 from django.http import HttpResponse
 from django.shortcuts import render
 from ChatBot.views.misc.Constants import *
-from ChatBot.views.chatbot_service.Intents import *
-from textblob import TextBlob
 import json
 import logging
+import apiai
 
-class ChatBotHandler(ListView):
+logger = logging.getLogger(__name__)
 
-    """
-    Interprets user question to return an appropriate response.
-    """
+class ChatBotHandler(LoginRequiredMixin, ListView):
+    #only works for admin atm
+    #restricts chatbot usage to only logged in users
+    login_url = 'login_handler'
+    redirect_field_name = 'redirect_to'
+
     def post(self, request):
+        """ Standard post function. """
+        ai = apiai.ApiAI(API_KEY)
+
         question = request.POST[QUESTION_TEXT]
-        question = TextBlob(str(question))
-        question = question.correct()
+        logger.info("Processing question: %s\n", question)
 
-        logging.debug('Processing question: %s\n', question)
+        request = ai.text_request()
+        request.query = question
+        response = json.loads(request.getresponse().read())
 
-        response = None
-        max_count = 0
+        return_data = {}
+        return_data[ERROR] = False
+        return_data[MSG] = response['result']['fulfillment']['speech']
 
-        for intent in intents:
-            keywords = intent.get(KEYWORDS)
-            count = self.check_sentence_for_keywords(question, keywords)
-            if max_count < count:
-                max_count = count
-                response = intent.get(RESPONSE)
+        logger.info("Anwsering with: %s\n", return_data[MSG])
 
-        if max_count == 0:
-            logging.debug('Could not find suitable response.')
-            return HttpResponse(json.dumps(UNKNOWN_REQUEST), content_type="application/json")
+        return HttpResponse(json.dumps(return_data), content_type="application/json")
 
-        logging.debug('Responding with: %s\n', response)
-
-        return HttpResponse(json.dumps(response), content_type="application/json")
-
-    """
-    Standard get function.
-    """
     def get(self, request):
+        """ Standard get function. """
         return render(request, "chat/chat.html")
-
-    """
-    Returns a count of keywords in a sentence.
-    """
-    def check_sentence_for_keywords(self, sentence, keywords):
-        count = 0
-        for word in sentence.words:
-            if word.lower() in keywords:
-                count += 1
-        return count

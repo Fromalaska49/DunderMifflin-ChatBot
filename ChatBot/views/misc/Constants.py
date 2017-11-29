@@ -16,8 +16,6 @@ MSG = 'MESSAGE'
 ADMIN = 'ADMIN'
 USER = 'USER'
 QUESTION_TEXT = 'QUESTION_TEXT'
-KEYWORDS = 'KEYWORDS'
-RESPONSE = 'RESPONSE'
 
 # Toy UTSA OIT Email
 OIT_EMAIL = 'oitutsa@mailinator.com'
@@ -39,6 +37,7 @@ CREATED_USER = 'Your account has been successfully created. Please check your em
 COMBINATION_INVALID = 'Invalid email/password combination. try again. Please enter your email:'
 PASS_RESET_SUCCESS = 'Your password has been successfully updated'
 LOGIN_SUCCESS = 'Login successful. What can I help you with?'
+DELETE_SUCESS = 'User has been succesfully deleted. You might regret this'
 ENTER_PASSWORD = 'Please enter your password'
 INCORRECT_PARAMETERS = 'Incorrect parameters'
 ENTER_EMAIL = 'Please enter your email'
@@ -64,3 +63,7 @@ EMAIL_INVALID_ERROR = 'You must provide a valid email address'
 # Name Error Messages
 FNAME_ERROR = 'Please enter a first name'
 LNAME_ERROR = 'Please entere a last name'
+
+
+# API.AI client key
+API_KEY = '8f652156aa8a434daaf9e9d3eb174313'
