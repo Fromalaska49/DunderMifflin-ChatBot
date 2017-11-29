@@ -11,24 +11,18 @@ logger = logging.getLogger(__name__)
 
 class ChatBotHandler(ListView):
 
-    """
-    Standard post function.
-    """
     def post(self, request):
+        """ Standard post function. """
         question = self.preprocess_text(request)
         return self.do_frequency_analysis(question)
 
-    """
-    Standard get function.
-    """
     def get(self, request):
+        """ Standard get function. """
         return render(request, "chat/chat.html")
 
-    """
-    Prepares the user question for interpretation
-    """
     @staticmethod
     def preprocess_text(request):
+        """ Prepares the user question for interpretation. """
         question = request.POST[QUESTION_TEXT]
         question = TextBlob(str(question))
         logger.info("Original request: %s\n", question)
@@ -36,21 +30,17 @@ class ChatBotHandler(ListView):
         logger.info("Processed request: %s\n", question)
         return question
 
-    """
-    Returns a count of keywords in a sentence.
-    """
     @staticmethod
     def check_sentence_for_keywords(sentence, keywords):
+        """ Returns a count of keywords in a sentence. """
         count = 0
         for word in sentence.words:
-            if word.lower() in keywords:
+            if word in keywords:
                 count += 1
         return count
 
-    """
-    Interprets user question to return an appropriate response.
-    """
     def do_frequency_analysis(self, question):
+        """ Interprets user question to return an appropriate response. """
         return_data = {}
         return_data[ERROR] = False
 
