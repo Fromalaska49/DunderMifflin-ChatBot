@@ -8,6 +8,7 @@ from django.http import Http404
 class UnlockAccount(ListView):
 
     def get(self, request, token):
+        # type: (object, object) -> object
         print token
 
         if token is None:

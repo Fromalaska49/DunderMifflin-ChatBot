@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -17,10 +16,8 @@ class DeleteUser(DeleteView):
     #deletions. User must be logged in
     model = models.User
     success_url = reverse_lazy('login_handler')
-    success_message = "User has been deleted successfully."
     template_name = 'delete\delete_user.html'
 
 
     def get_object(self):
-        messages.success(self.request, self.success_message)
         return get_object_or_404(User, pk=self.request.user.id)
