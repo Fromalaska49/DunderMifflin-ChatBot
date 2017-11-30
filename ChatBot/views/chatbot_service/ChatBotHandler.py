@@ -17,7 +17,7 @@ class ChatBotHandler(LoginRequiredMixin, ListView):
 
     def post(self, request):
         """ Standard post function. """
-        ai = apiai.ApiAI(API_KEY)
+        ai = apiai.ApiAI(API_CLIENT_KEY)
 
         question = request.POST[QUESTION_TEXT]
         logger.info("Processing question: %s\n", question)
