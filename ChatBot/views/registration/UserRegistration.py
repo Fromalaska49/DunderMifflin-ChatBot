@@ -46,6 +46,7 @@ class UserRegistration(ListView):
 
     # Get Request Handler
     def get(self, request):
+        # type: (object) -> object
 
         # Serve registration registration. give path relative to templates folder
         return render(request, "registration/registration.html")

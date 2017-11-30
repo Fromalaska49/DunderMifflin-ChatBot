@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 class ChatBotHandler(LoginRequiredMixin, ListView):
     #only works for admin atm
     #restricts chatbot usage to only logged in users
+
     login_url = 'login_handler'
     redirect_field_name = 'redirect_to'
 
@@ -35,5 +36,6 @@ class ChatBotHandler(LoginRequiredMixin, ListView):
         return HttpResponse(json.dumps(return_data), content_type="application/json")
 
     def get(self, request):
+        # type: (object) -> object
         """ Standard get function. """
         return render(request, "chat/chat.html")

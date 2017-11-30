@@ -1,0 +1,25 @@
+{% extends 'main_template.html' %}
+
+{% block content %}
+
+<div class='col-sm-6 col-sm-offset-3'>
+
+    {% if request.user.is_authenticated %}
+    <p>Update Profile Information </p>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+            <!--{{ formset.management_form }}-->
+            {{ form.as_table }}
+            <br>
+            <input type="submit" value="Update"/>
+            <input type="button" value="Back" onclick="window.location='{% url 'chatbot_handler' %}'"/>
+            </br>
+        </table>
+    </form>
+    {% else %}
+    <h4>You do not have the correct authorizations to update this user profile</h4>.
+    <a href="/login">Login</a>
+    {% endif %}
+</div>
+{% endblock %}
