@@ -14,9 +14,10 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
-from ChatBot.views.update_user.UpdateUserProfile import update_user
+
 from .views.delete_user.DeleteUser import DeleteUser
 from .views.registration.UserRegistration import UserRegistration
+# from .views.delete_user.DeleteUser import DeleteUser
 from .views.chatbot_service.ChatBotHandler import ChatBotHandler
 from .views.account_management.UnlockAccount import UnlockAccount
 from .views.account_management.VerifyAccount import VerifyAccount
@@ -24,6 +25,10 @@ from .views.account_management.RequestChange import RequestChange
 from .views.account_management.ResetPassword import ResetPassword
 from .views.login.Login import Login
 from django.contrib import admin, auth
+from .views.forgot.Forgot import Forgot
+#from .views.logout.Logout import Logout
+from .views.edit_user.EditUser import EditUser
+from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/login/', Login.as_view(), name="admin_login_handler"),  # will override admin login page
@@ -39,6 +44,10 @@ urlpatterns = [
     url(r'^login', Login.as_view(), name="login_handler"),
     url(r'^chatbot', ChatBotHandler.as_view(), name="chatbot_handler"),
     url(r'^delete', DeleteUser.as_view(), name="delete_user_handler"),
+    url(r'^forgot', Forgot.as_view(), name="forgot_handler"),
+    #url(r'^logout', Logout.as_view(), name="logout"),
+    url(r'^edit-account', EditUser.as_view(), name="edit_user_handler"),
+    #url(r'^delete', DeleteUser.as_view(), name="delete_user"),
     url(r'^update', update_user, name="update_profile_handler"),
     url(r'^logout', auth.views.logout, name='logout_handler', kwargs={'next_page': 'login_handler'}),
 ]

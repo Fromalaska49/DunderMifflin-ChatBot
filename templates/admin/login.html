@@ -8,12 +8,14 @@
     </style>
     <div class="container">
     <div class="row">
-        <div id="login-div" class="col-sm-8 spaced">
+        <div class="col-md-1 col-lg-2 hidden-sm-down spacer">
+        </div>
+        <div id="login-div" class="col-sm-12 col-md-10 col-lg-8 col-xs-12">
             <h3>
                 Login
             </h3>
-            <hr>
-            <form method="post" class="form fv-form fv-form-bootstrap" action="/login">
+            <hr />
+            <form id="login-form" method="post" class="form fv-form fv-form-bootstrap" action="/login">
                 {% csrf_token %}
                 <div class="col-sm-4">
                     <label for="email">
@@ -21,7 +23,7 @@
                     </label>
                 </div>
                 <div class="col-sm-8">
-                    <input id="email" name="EMAIL">
+                    <input type="text" id="email" name="EMAIL">
                 </div>
                 <br>
                 <div class="col-sm-4">
@@ -30,49 +32,75 @@
                     </label>
                 </div>
                 <div class="col-sm-8">
-                    <input id="password" name="PASSWORD">
+                    <input type="password" id="password" name="PASSWORD">
                 </div>
                 <br>
-                <input type="submit">
-            </form>
-            <br>
-            <a href="/registration">Create new account</a>
-            <br>
-            <a href="#" onclick="changePW(false)">Forgot Password</a>
-            </div>
-    
-            <div id="change-div" class="col-sm-8 spaced">
-                <h3>
-                    Change Password
-                </h3>
-                <hr>
-                <form method="post" action="/requestchange">
-                {% csrf_token %}
-                    <div class="col-sm-4"><label for="email-change">Email:</label></div>
-                    <div class="col-sm-8"><input id="email-change" name="EMAIL"></div>
-                    <input type="hidden" name="CHANGE_TYPE" value="PASSWORD"><br>
+                <div class="col-sm-12">
                     <input type="submit">
-                </form>
-                <br>
-                <a href="#" onclick="changePW(true)">Show Login</a>
-                <br>
-
+                    <div id="login-message-container" style="margin-left:10px;display:none;" class="button-shape">
+                    </div>
+                </div>
+            </form>
+            <br />
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="/registration">Create new account</a>
+                    <br>
+                    <a href="/forgot">Forgot Password</a>
+                </div>
             </div>
-
-
+            </div>
+        </div>
+        <div class="col-md-1 col-lg-2 hidden-sm-down spacer">
         </div>
     </div>
     <script type="text/javascript">
-        function changePW(vis) {
-            if(vis) {
-                document.getElementById("change-div").setAttribute("style", "display: none;");
-                document.getElementById("login-div").setAttribute("style", "display: initial;");
-            } else {
-                document.getElementById("change-div").setAttribute("style", "display: initial;");
-                document.getElementById("login-div").setAttribute("style", "display: none;");
-            }
+        //encodes String for use in HTML
+        String.prototype.htmlEncode = function(){
+            return $("<div></div>").text(this).html();
         }
-        changePW(true);
+        $(document).ready(function(){
+            $("#login-form").submit(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: "/login",
+                    cache: false,
+                    method: "post",
+                    data: {
+                        csrfmiddlewaretoken: $("#login-form input[name=\"csrfmiddlewaretoken\"]").first().val(),
+                        EMAIL: $("#email").val(),
+                        PASSWORD: $("#password").val()
+                    },
+                    success: function(response){
+                        if(response.ERROR == false){
+                            //successful login
+                            $("#login-message-container").addClass("alert-success");
+                            $("#login-message-container").html("Succes: click <a href=\"/chatbot\">here</a> if you are not automatically redirected");
+                            $("#login-message-container").css("display", "inline-block");
+                            window.location.replace("/chatbot");
+                        }
+                        else if(response.ERROR == true){
+                            //failed login
+                            $("#login-message-container").addClass("alert-danger");
+                            $("#login-message-container").text("Error: " + response.MESSAGE);
+                            $("#login-message-container").css("display", "inline-block");
+                        } 
+                        else{
+                            //response.ERROR undefined, error on server implied
+                            $("#login-message-container").addClass("alert-danger");
+                            $("#login-message-container").text("Error: unknown server error");
+                            $("#login-message-container").css("display", "inline-block");
+                        }
+                    },
+                    error: function(jqXHR, response){
+                        //server error
+                        $("#login-message-container").addClass("alert-danger");
+                        $("#login-message-container").text("Error: server error (" + jqXHR + ")");
+                        $("#login-message-container").css("display", "inline-block");
+                    }
+                });
+            });
+        });
     </script>
 
 {% endblock %}
