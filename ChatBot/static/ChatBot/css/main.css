@@ -87,12 +87,12 @@ input[type=text]:active, input[type=password]:active, textarea:active, select:ac
 	border-color: #ffffff;
 }
 
-#registrationForm .row, #passwordReset .row {
+#registrationForm .row, #passwordReset .row, #edit-user-form .row {
 	background-color: inherit;
 	padding: 10px 0px;
 }
 
-#registrationForm .row div input[type="text"], #registrationForm .row div input[type="password"], textarea {
+#registrationForm .row div input[type="text"], #registrationForm .row div input[type="password"], #edit-user-form .row div input[type="text"], #edit-user-form .row div input[type="password"] {
 	width: 100%;
 }
 
