@@ -12,6 +12,34 @@
              style="border-style:solid;border-color:black;border-width:1px;background-color:#ffffff;">
             <div class="row">
                 <div id="history-window" class="col-sm-12">
+                    <div id="settings-button" class="transition">
+                        <img src="{% static 'ChatBot/images/icons/ic_settings_white_48dp_2x.png' %}" style="height:35px;" />
+                    </div>
+                    <div id="settings-pane" style="display:none;position:absolute;top:10px;right:10px;border-radius:27px;background-color:#002244;color:#ffffff;">
+                        <div id="settings-pane-exit" style="position:absolute;top:6px;right:6px;border-radius:28px;background-color:#002244;color:#ffffff;cursor:pointer;">
+                            <img src="{% static 'ChatBot/images/icons/ic_close_white_48dp_2x.png' %}" style="height:35px;" />
+                        </div>
+                        <ul style="list-style-type:none;padding:47px 27px 0px 27px;">
+                            <li id="clear-history-button" class="settings-pane-item">
+                                Clear History
+                            </li>
+                            <a href="edit-account">
+                                <li class="settings-pane-item">
+                                    Edit Account
+                                </li>
+                            </a>
+                            <a href="delete">
+                                <li class="settings-pane-item">
+                                    Delete Account
+                                </li>
+                            </a>
+                            <a href="logout">
+                                <li class="settings-pane-item" style="border-style:solid none;">
+                                    Log Out
+                                </li>
+                            </a>
+                        </ul>
+                    </div>
                     <div id="history" style="display: block;height: 300px;background-color:#ffffff;">
                     </div>
                 </div>
@@ -29,11 +57,6 @@
                 </div>
             </form>
         </div>
-        <!--Hey are you sure you want to delete {{ object.title }}?-->
-        <button type="button">
-            <a href="/delete">Delete</a>
-        </button>
-        <!-- onclick="changePW(false)">Delete User</> -->
         <div class="col-sm-1 col-md-2 col-lg-3 hidden-xs-down spacer">
         </div>
     </div>
@@ -67,6 +90,18 @@
             }
         });
     }
+    $(document).ready(function(){
+        $("#settings-button").on("click", function(){
+            $("#settings-pane").fadeIn(200);
+        });
+        $("#settings-pane-exit").on("click", function(){
+            $("#settings-pane").fadeOut(200);
+        });
+        $("#clear-history-button").on("click", function(){
+            $("#history").html("");
+            $("#settings-pane").fadeOut(200);
+        });
+    });
 
 
 </script>
