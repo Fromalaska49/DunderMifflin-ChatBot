@@ -24,6 +24,7 @@ from .views.account_management.VerifyAccount import VerifyAccount
 from .views.account_management.RequestChange import RequestChange
 from .views.account_management.ResetPassword import ResetPassword
 from .views.login.Login import Login
+from .views.forgot.Forgot import Forgot
 from django.contrib import admin
 
 urlpatterns = [
@@ -40,5 +41,6 @@ urlpatterns = [
     url(r'^login', Login.as_view(), name="login_handler"),
     url(r'^chatbot', ChatBotHandler.as_view(), name="chatbot_handler"),
     url(r'^delete', DeleteUser.as_view(), name="delete_user_handler"),
+    url(r'^forgot', Forgot.as_view(), name="forgot_handler"),
     #url(r'^delete', DeleteUser.as_view(), name="delete_user"),
 ]
