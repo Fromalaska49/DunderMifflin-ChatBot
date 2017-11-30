@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 
+from ChatBot.views.update_user.UpdateUserProfile import update_user
 from .views.delete_user.DeleteUser import DeleteUser
 from .views.registration.UserRegistration import UserRegistration
 # from .views.delete_user.DeleteUser import DeleteUser
