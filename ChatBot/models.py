@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User as AuthUser
 
-# This is the section where database tables are defined in the form of class definitions (where ORM starts)
 
+# This is the section where database tables are defined in the form of class definitions (where ORM starts)
 
 class User(AuthUser):
     acct_active = models.BooleanField(default=False)

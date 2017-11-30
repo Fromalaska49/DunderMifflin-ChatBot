@@ -40,6 +40,7 @@ class ResetPassword(ListView):
 
 
     def get(self, request, token):
+        # type: (object, object) -> object
 
         if token is None:
             raise Http404()
