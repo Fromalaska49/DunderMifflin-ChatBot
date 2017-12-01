@@ -184,7 +184,7 @@ LOGGING = {
     }
 }
 
-TIME = 1 * 60
+TIME = 1 * 15 * 60
 # Handle session is not Json Serializable
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True

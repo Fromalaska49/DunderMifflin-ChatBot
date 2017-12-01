@@ -1,7 +1,7 @@
 import datetime
 from django.contrib.auth.views import logout, login
 from django.utils.deprecation import MiddlewareMixin
-
+from django.shortcuts import render, redirect
 from ChatBot import settings
 
 
@@ -12,7 +12,9 @@ class AutoLogout(MiddlewareMixin):
             if 'last_login' in request.session:
                 last = (current_datetime - request.session['last_login']).seconds
                 if last > settings.SESSION_IDLE_TIMEOUT:
-                    logout(request, login.html)
+                    logout(request)
+                    redirect('/login')
+                    
             else:
                 request.session['last_login'] = current_datetime
         return None
