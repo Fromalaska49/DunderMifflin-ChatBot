@@ -41,7 +41,7 @@
                         </ul>
                     </div>
                     <div id="history" style="display: block;height: 300px;background-color:#ffffff;">
-                        Welcome, {{ user.username }}
+                        OIT: Welcome, {{ user.username }} <br />
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                                placeholder="How can I help?">
                     </div>
                     <div id="submit-div" class="col-sm-3" style="text-align:center;">
-                        <input type="button" value="submit" onclick="SendQuestion()" style="outline-style:none;">
+                        <input type="button" value="Send" onclick="SendQuestion()" style="outline-style:none;">
                     </div>
                 </div>
             </form>
@@ -92,11 +92,16 @@
         });
     }
     $(document).ready(function(){
+        var settingsPaneVisible = false;
         $("#settings-button").on("click", function(){
             $("#settings-pane").fadeIn(200);
+            settingsPaneVisible = true;
         });
-        $("#settings-pane-exit").on("click", function(){
-            $("#settings-pane").fadeOut(200);
+        $("#settings-pane-exit, #history, #query").on("click", function(){
+            if(settingsPaneVisible){
+                $("#settings-pane").fadeOut(200);
+                settingsPaneVisible = false;
+            }
         });
         $("#clear-history-button").on("click", function(){
             $("#history").html("");
