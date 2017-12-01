@@ -68,3 +68,4 @@ API_DEV_KEY = '670486e053a84bd88285c0b3f03cddcb'
 
 # API.AI URL
 API_URL = 'https://api.dialogflow.com/v1/intents?v=20150910&lang=en'
+API_HEADERS = {"Content-Type": "application/json", "Authorization": "Bearer 670486e053a84bd88285c0b3f03cddcb"}

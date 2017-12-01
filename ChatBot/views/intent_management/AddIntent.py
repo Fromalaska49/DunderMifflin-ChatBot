@@ -38,10 +38,17 @@ class AddIntent(LoginRequiredMixin, ListView):
                 templates += '"' + intent_user_says[i] + '"'
 
         body += templates
-        body += '],'
-        body += '"webhookForSlotFilling": false,' \
+        body += '],' \
+                '"webhookForSlotFilling": false,' \
                 '"webhookUsed": false}'
 
+        response = requests.post(API_URL, body, headers=API_HEADERS)
+
+        return_data = {}
+        return_data[ERROR] = False
+        return_data[MSG] = response['status']['errorType']
+
+        return HttpResponse(json.dumps(return_data), content_type="application/json")
 
     def get(self, request):
         """ Standard get function. """
