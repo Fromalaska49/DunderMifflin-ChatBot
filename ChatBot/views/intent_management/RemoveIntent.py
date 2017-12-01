@@ -21,7 +21,7 @@ class AddIntent(LoginRequiredMixin, ListView):
         logger.debug("Attempting to delete intent: %s\n", intent_name)
 
         # Get all intents
-        intents = requests.get(API_URL + '/' + API_URL_TAIL, header=API_HEADER)
+        intents = requests.get(API_URL + '/' + API_URL_TAIL, headers=API_HEADER)
 
         # Get the intent id for the input intent name
         for intent in intents:
@@ -42,7 +42,6 @@ class AddIntent(LoginRequiredMixin, ListView):
             logger.info("Successfully deleted intent: %s\n", intent_name)
         else:
             logger.error("Failed to delete intent: %s, Error Message: %s\n", intent_name, return_data[MSG])
-
 
         return HttpResponse(json.dumps(return_data), content_type="application/json")
 
