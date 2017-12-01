@@ -40,8 +40,8 @@
                             </a>
                         </ul>
                     </div>
-                    <div id="history" style="display: block;height: 300px;background-color:#ffffff;">
-                        Welcome, {{ user.username }}
+                    <div id="history" style="display: block;height: 300px;background-color:#ffffff;overflow-y:scroll;">
+                        OIT: Welcome, {{ user.username }} <br />
                     </div>
                 </div>
             </div>
@@ -50,10 +50,10 @@
                 <div class="row" style="padding:10px;background-color:#cdcdcd;">
                     <div id="user-entry" class="col-sm-9">
                         <input type="text" id="question" name="QUESTION_TEXT" style="width:100%;height:44px;"
-                               placeholder="How can I help?">
+                               placeholder="How can I help?" autocomplete="off" />
                     </div>
                     <div id="submit-div" class="col-sm-3" style="text-align:center;">
-                        <input type="button" value="submit" onclick="SendQuestion()" style="outline-style:none;">
+                        <input type="submit" value="Send" onclick="SendQuestion()" style="outline-style:none;" />
                     </div>
                 </div>
             </form>
@@ -71,32 +71,37 @@
     String.prototype.htmlEncode = function(){
         return $("<div></div>").text(this).html();
     }
-    function SendQuestion() {
-        var q = $("#query").serialize();
-        question = $("#question").val();
-        console.log("question = " + question);
-        $.ajax({
-            url: "/chatbot",
-            type: "POST",
-            data: q,
-            success: function(data) {
-                console.log(data);
-                var str = "You: " + question.htmlEncode() + "<br>";
-                $("#history").append(str + "OIT: " + data["MESSAGE"] + "<br>");
-            },
-            error: function(data) {
-                console.log(data);
-                var str = "You: " + question.htmlEncode() + "<br>";
-                $("#history").append(str + "OIT: " + data["MESSAGE"] + "<br>");
-            }
-        });
-    }
     $(document).ready(function(){
+        $("#query").submit(function(e){
+            e.preventDefault();
+            var q = $("#query").serialize();
+            question = $("#question").val();
+            $("#question").val("");
+            $.ajax({
+                url: "/chatbot",
+                type: "POST",
+                data: q,
+                success: function(data) {
+                    var str = "You: " + question.htmlEncode() + "<br>";
+                    $("#history").append(str + "OIT: " + data["MESSAGE"] + "<br>");
+                },
+                error: function(data) {
+                    var str = "You: " + question.htmlEncode() + "<br>";
+                    $("#history").append(str + "OIT: " + data["MESSAGE"] + "<br>");
+                }
+            });
+        });
+        
+        var settingsPaneVisible = false;
         $("#settings-button").on("click", function(){
             $("#settings-pane").fadeIn(200);
+            settingsPaneVisible = true;
         });
-        $("#settings-pane-exit").on("click", function(){
-            $("#settings-pane").fadeOut(200);
+        $("#settings-pane-exit, #history, #query").on("click", function(){
+            if(settingsPaneVisible){
+                $("#settings-pane").fadeOut(200);
+                settingsPaneVisible = false;
+            }
         });
         $("#clear-history-button").on("click", function(){
             $("#history").html("");
