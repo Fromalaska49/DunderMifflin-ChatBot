@@ -1,9 +1,27 @@
 {% extends 'main_template.html' %}
-{% load static %}
-
-{% block title %}Admin Registration{% endblock %}
 
 {% block content %}
+
+<div style="display:none;">
+
+    {% if request.user.is_authenticated %}
+    <p>Update Profile Information </p>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+            <!--{{ formset.management_form }}-->
+            {{ form.as_table }}
+            <br>
+            <input type="submit" value="Update"/>
+            <input type="button" value="Back" onclick="window.location='{% url 'chatbot_handler' %}'"/>
+            </br>
+        </table>
+    </form>
+    {% else %}
+    <h4>You do not have the correct authorizations to update this user profile</h4>.
+    <a href="/login">Login</a>
+    {% endif %}
+</div>
 
   <div class="container">
     <div class="row">
@@ -42,7 +60,7 @@
                         <input type="text" id="email" name="EMAIL" placeholder="Email"  value="user.email" required>
                     </div>
                 </div>
-
+                <!--
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
                         <label for="password" data-error="wrong" data-success="right">Password:</label>
@@ -60,17 +78,15 @@
                         <input type="password" id="confirm-password" name="CONFIRM_PASSWORD" placeholder="Confirm Password" required>
                     </div>
                 </div>
-
+                -->
                 <div class="row">
                     <div class="col-sm-12">
                         <input type="submit" class="btn" value="Save" />
-                        <div id="edit-user-message-container" style="display:none;" class="button-shape">
-                            <h2>Your changes have been saved</h2>
+                        <div id="edit-user-message-container" style="display:none;margin-left:10px;" class="button-shape">
+                            Your changes have been saved
                         </div>
                     </div>
                 </div>
-                <br />
-                <p id="errmsg"></p>
             </form>
         </div>
         <div class="col-sm-1 col-md-2 col-lg-3 hidden-xs-down spacer">
@@ -88,16 +104,23 @@
             return $("<div></div>").text(this).html();
         }
         $(document).ready(function(){
+            var email = $("table tbody tr td input[name=\"email\"]").val();
+            var first_name = $("table tbody tr td input[name=\"first_name\"]").val();
+            var last_name = $("table tbody tr td input[name=\"last_name\"]").val();
+            $("#first-name").val(first_name);
+            $("#last-name").val(last_name);
+            $("#email").val(email);
             $("#edit-user-form").submit(function(e){
                 e.preventDefault();
                 $.ajax({
-                    url: "/edit",
+                    url: "/update_profile_handler",
                     cache: false,
                     method: "post",
                     data: {
                         csrfmiddlewaretoken: $("#edit-user-form input[name=\"csrfmiddlewaretoken\"]").first().val(),
-                        EMAIL: $("#email").val(),
-                        PASSWORD: $("#password").val()
+                        email: $("#email").val(),
+                        first_name: $("#first-name").val(),
+                        last_name: $("#last-name").val()
                     },
                     success: function(response){
                         if(response.ERROR == false){
@@ -105,7 +128,6 @@
                             $("#edit-user-message-container").addClass("alert-success");
                             $("#edit-user-message-container").html("Succes: Your changes have been saved");
                             $("#edit-user-message-container").css("display", "inline-block");
-                            window.location.replace("/chatbot");
                         }
                         else if(response.ERROR == true){
                             //failed login
@@ -115,6 +137,8 @@
                         } 
                         else{
                             //response.ERROR undefined, error on server implied
+                            alert("Currently no JSON object returned, however, your changes may have been saved. Check the browser's console log to view the server's response.");
+                            console.log(JSON.stringify(response));
                             $("#edit-user-message-container").addClass("alert-danger");
                             $("#edit-user-message-container").text("Error: unknown server error");
                             $("#edit-user-message-container").css("display", "inline-block");
