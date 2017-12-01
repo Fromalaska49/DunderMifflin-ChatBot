@@ -34,7 +34,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/login/', Login.as_view(), name="admin_login_handler"),  # will override admin login page
     url(r'^admin/', admin.site.urls),
-    url(r'^$', UserRegistration.as_view(), name="registration"),
+    url(r'^$', Login.as_view(), name="login"),
     url(r'^register', UserRegistration.as_view(), name="registration"),
     url(r'^registration', UserRegistration.as_view(), name="registration"),
     url(r'^requestchange', RequestChange.as_view(), name="update_info_handler"),
