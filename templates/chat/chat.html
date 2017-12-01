@@ -1,7 +1,7 @@
 {% extends 'main_template.html' %}
 {% load static %}
 
-{% block title %}ChatBot Web Interface{% endblock %}
+{% block title %}ChatBot{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -41,6 +41,7 @@
                         </ul>
                     </div>
                     <div id="history" style="display: block;height: 300px;background-color:#ffffff;">
+                        Welcome, {{ user.username }}
                     </div>
                 </div>
             </div>
