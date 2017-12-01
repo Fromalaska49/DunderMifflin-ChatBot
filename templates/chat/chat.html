@@ -84,10 +84,12 @@
                 success: function(data) {
                     var str = "You: " + question.htmlEncode() + "<br>";
                     $("#history").append(str + "OIT: " + data["MESSAGE"] + "<br>");
+                    $("#history").animate({ scrollTop: $('#history').prop("scrollHeight")}, 200);
                 },
                 error: function(data) {
                     var str = "You: " + question.htmlEncode() + "<br>";
                     $("#history").append(str + "OIT: " + data["MESSAGE"] + "<br>");
+                    $("#history").animate({ scrollTop: $('#history').prop("scrollHeight")}, 200);
                 }
             });
         });
