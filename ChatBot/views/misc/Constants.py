@@ -64,3 +64,10 @@ EMAIL_INVALID_ERROR = 'You must provide a valid email address'
 # Name Error Messages
 FNAME_ERROR = 'Please enter a first name'
 LNAME_ERROR = 'Please entere a last name'
+
+# Localhost
+LOCALHOST = 'http://127.0.0.1:8000'
+
+# Endpoints
+REGISTRATION_ENDPT = '/registration'
+

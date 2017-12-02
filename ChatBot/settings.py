@@ -30,6 +30,25 @@ ALLOWED_HOSTS = [u'0.0.0.0', 'localhost', '127.0.0.1', DB_HOST]
 
 APPEND_SLASH = False
 
+# Default settings that were needed for restframework module
+
+LOGGING_CONFIG = None
+FORCE_SCRIPT_NAME = None
+DEFAULT_INDEX_TABLESPACE = ''
+DEFAULT_TABLESPACE = ''
+ABSOLUTE_URL_OVERRIDES = {}
+LOCALE_PATHS = []
+AUTH_USER_MODEL = 'auth.User'
+DEFAULT_CHARSET = 'utf-8'
+FILE_UPLOAD_HANDLERS = [
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+]
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440
+DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440
+DATABASE_ROUTERS = []
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,6 +60,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
