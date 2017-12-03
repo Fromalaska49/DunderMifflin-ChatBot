@@ -4,6 +4,7 @@ sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from ChatBot.views.misc.Constants import *
 from ChatBot.views.registration.UserRegistration import UserRegistration
 import json
+'''Do Not Change Import Order'''
 
 URL = LOCALHOST + REGISTRATION_ENDPT
 view = UserRegistration.as_view()
@@ -50,7 +51,6 @@ class RegistrationTest:
 
         return response_object[ERROR] == True and response_object[MSG] == EMAIL_INVALID_ERROR
 
-
     @staticmethod
     def test_registration_blank_fname(request_factory):
         params = params = {
@@ -67,3 +67,105 @@ class RegistrationTest:
         response_object = json.loads(response.content)
 
         return response_object[ERROR] == True and response_object[MSG] == FNAME_ERROR
+
+    @staticmethod
+    def test_registration_blank_lname(request_factory):
+        params = params = {
+            EMAIL: "hello@maillinator.com",
+            PASSWORD: "SomePasswd123!@#",
+            CONFIRM_PASSWORD: "SomePasswd123!@#",
+            FIRST_NAME: "Max",
+            LAST_NAME: ""
+        }
+        print "\tTesting Registration Using Blank Last Name"
+        request = request_factory.post(URL, params)
+        response = view(request)
+        print_expected_received({ERROR: True, MSG: LNAME_ERROR}, response.content)
+        response_object = json.loads(response.content)
+
+        return response_object[ERROR] == True and response_object[MSG] == LNAME_ERROR
+
+    @staticmethod
+    def test_registration_bad_psswd_digits(request_factory):
+        params = params = {
+            EMAIL: "hello@maillinator.com",
+            PASSWORD: "SomePasswd!@#",
+            CONFIRM_PASSWORD: "SomePasswd!@#",
+            FIRST_NAME: "Max",
+            LAST_NAME: "Pegasus"
+        }
+        print "\tTesting Registration Using Password That Fails Digit Requirements: " + params[PASSWORD]
+        request = request_factory.post(URL, params)
+        response = view(request)
+        print_expected_received({ERROR: True, MSG: PASS_NUMBER_ERROR}, response.content)
+        response_object = json.loads(response.content)
+
+        return response_object[ERROR] == True and response_object[MSG] == PASS_NUMBER_ERROR
+
+    @staticmethod
+    def test_registration_bad_psswd_uppercase(request_factory):
+        params = params = {
+            EMAIL: "hello@maillinator.com",
+            PASSWORD: "somepasswd123!@#",
+            CONFIRM_PASSWORD: "somepasswd123!@#",
+            FIRST_NAME: "Max",
+            LAST_NAME: "Pegasus"
+        }
+        print "\tTesting Registration Using Password That Fails Uppercase Requirements: " + params[PASSWORD]
+        request = request_factory.post(URL, params)
+        response = view(request)
+        print_expected_received({ERROR: True, MSG: PASS_UPPERCASE_ERROR}, response.content)
+        response_object = json.loads(response.content)
+
+        return response_object[ERROR] == True and response_object[MSG] == PASS_UPPERCASE_ERROR
+
+    @staticmethod
+    def test_registration_bad_psswd_symbols(request_factory):
+        params = params = {
+            EMAIL: "hello@maillinator.com",
+            PASSWORD: "SomePasswd123",
+            CONFIRM_PASSWORD: "SomePasswd123",
+            FIRST_NAME: "Max",
+            LAST_NAME: "Pegasus"
+        }
+        print "\tTesting Registration Using Password That Fails Symbol Requirements: " + params[PASSWORD]
+        request = request_factory.post(URL, params)
+        response = view(request)
+        print_expected_received({ERROR: True, MSG: PASS_SYMBOL_ERROR}, response.content)
+        response_object = json.loads(response.content)
+
+        return response_object[ERROR] == True and response_object[MSG] == PASS_SYMBOL_ERROR
+
+    @staticmethod
+    def test_registration_bad_psswd_match(request_factory):
+        params = params = {
+            EMAIL: "hello@maillinator.com",
+            PASSWORD: "SomePasswd123!@#",
+            CONFIRM_PASSWORD: "SomePasswd456!@#",
+            FIRST_NAME: "Max",
+            LAST_NAME: "Pegasus"
+        }
+        print "\tTesting Registration Using Passwords That Do Not Match: " + params[PASSWORD] + " " + params[CONFIRM_PASSWORD]
+        request = request_factory.post(URL, params)
+        response = view(request)
+        print_expected_received({ERROR: True, MSG: PASS_MATCH_ERROR}, response.content)
+        response_object = json.loads(response.content)
+
+        return response_object[ERROR] == True and response_object[MSG] == PASS_MATCH_ERROR
+
+    @staticmethod
+    def test_registration_bad_psswd_length(request_factory):
+        params = params = {
+            EMAIL: "hello@maillinator.com",
+            PASSWORD: "SoP12!@",
+            CONFIRM_PASSWORD: "SoP12!@",
+            FIRST_NAME: "Max",
+            LAST_NAME: "Pegasus"
+        }
+        print "\tTesting Registration Using Password That Is Too Short: " + params[PASSWORD]
+        request = request_factory.post(URL, params)
+        response = view(request)
+        print_expected_received({ERROR: True, MSG: PASS_LENGTH_ERROR}, response.content)
+        response_object = json.loads(response.content)
+
+        return response_object[ERROR] == True and response_object[MSG] == PASS_LENGTH_ERROR
