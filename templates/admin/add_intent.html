@@ -1,0 +1,125 @@
+{% extends 'main_template.html' %}
+
+{% block content %}
+<style>
+    .spaced {
+        margin: 10px;
+    }
+
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-md-1 col-lg-2 hidden-sm-down spacer">
+        </div>
+        <div id="main-div" class="col-sm-12 col-md-10 col-lg-8 col-xs-12">
+            <div>
+                {% if messages %}
+                {% for message in messages %}
+                <p class="alert alert-dismissable {% if message.tags %}alert-{{ message.tags }}" {% endif %}>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ message }}
+                </p>
+                {% endfor %}
+                {% endif %}
+            </div>
+            <h3>
+                Add New Question
+            </h3>
+            <hr/>
+            <div id="main-form" class="form fv-form fv-form-bootstrap">
+                {% csrf_token %}
+                <div class="col-sm-4">
+                    <label for="Name">
+                        Name:
+                    </label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" id="name" name="INTENT_NAME">
+                </div>
+                <br>
+                <div class="col-sm-4">
+                    <label for="UserSays">
+                        User Says:
+                    </label>
+                </div>
+                <div class="col-sm-8">
+                    <textarea id="user_says" name="INTENT_USER_SAYS"></textarea>
+                </div>
+                <br>
+                <div class="col-sm-4">
+                    <label for="response">
+                        Response:
+                    </label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" id="response" name="INTENT_RESPONSE">
+                </div>
+                <br>
+                <div class="col-sm-12">
+                    <input type="button" id="submit" value="Submit">
+                    <div id="login-message-container" style="margin-left:10px;display:none;" class="button-shape">
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="row">
+                <div class="col-sm-12">
+                    <a href="/get_intents">View the current questions</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-1 col-lg-2 hidden-sm-down spacer">
+    </div>
+</div>
+<script type="text/javascript">
+        //encodes String for use in HTML
+        String.prototype.htmlEncode = function(){
+            return $("<div></div>").text(this).html();
+        }
+        $(document).ready(function(){
+            $("#submit").click(function(e){
+                e.preventDefault();
+                $.ajax({
+                    url: "/add_intent",
+                    cache: false,
+                    method: "post",
+                    data: {
+                        csrfmiddlewaretoken: $("#main-form input[name=\"csrfmiddlewaretoken\"]").first().val(),
+                        INTENT_NAME: $("#name").val(),
+                        INTENT_USER_SAYS: $("#user_says").val(),
+                        INTENT_RESPONSE: $("#response").val()
+                    },
+                    success: function(response){
+                        if(response.ERROR == false){
+                            //successful login
+                            $("#login-message-container").addClass("alert-success");
+                            $("#login-message-container").html("Succes");
+                            $("#login-message-container").css("display", "inline-block");
+                        }
+                        else if(response.ERROR == true){
+                            //failed login
+                            $("#login-message-container").addClass("alert-danger");
+                            $("#login-message-container").text("Error: " + response.MESSAGE);
+                            $("#login-message-container").css("display", "inline-block");
+                        } 
+                        else{
+                            //response.ERROR undefined, error on server implied
+                            $("#login-message-container").addClass("alert-danger");
+                            $("#login-message-container").text("Error: unknown server error");
+                            $("#login-message-container").css("display", "inline-block");
+                        }
+                    },
+                    error: function(jqXHR, response){
+                        //server error
+                        $("#login-message-container").addClass("alert-danger");
+                        $("#login-message-container").text("Error: server error (" + jqXHR + ")");
+                        $("#login-message-container").css("display", "inline-block");
+                    }
+                });
+            });
+        });
+
+</script>
+
+{% endblock %}

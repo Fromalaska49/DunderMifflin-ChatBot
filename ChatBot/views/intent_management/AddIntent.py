@@ -17,9 +17,9 @@ class AddIntent(LoginRequiredMixin, ListView):
         return_data = {}
         return_data[ERROR] = False
 
-        intent_name = request.POST[INTENT_NAME]
-        intent_user_says = request.POST[INTENT_USER_SAYS]
-        intent_response = request.POST[INTENT_RESPONSE]
+        intent_name = request.POST[INTENT_NAME] #Returns str
+        intent_user_says = request.POST[INTENT_USER_SAYS].split('\n') #Returns str
+        intent_response = request.POST[INTENT_RESPONSE] #str
 
         logger.debug("Attempting to create intent: %s\n", intent_name)
 
@@ -49,7 +49,11 @@ class AddIntent(LoginRequiredMixin, ListView):
                 '"webhookUsed": false}'
 
         response = requests.post(API_URL + '/' + API_URL_TAIL, body, headers=API_HEADER)
-        return_data[MSG] = response['status']['errorType']
+        response_string = ''
+        for line in response:
+            response_string += line
+        response_json = json.loads(response_string)
+        return_data[MSG] = response_json['status']['errorType']
 
         if return_data[MSG] == 'Success':
             logger.info("Successfully created intent: %s\n", intent_name)
@@ -60,4 +64,5 @@ class AddIntent(LoginRequiredMixin, ListView):
 
     def get(self, request):
         """ Standard get function. """
-        pass
+        if request.user.is_authenticated and request.user.is_staff:
+            return render(request, 'admin/add_intent.html')
