@@ -4,7 +4,7 @@ from ChatBot.views.misc.Constants import *
 from ChatBot.views.util.EmailUtil import send_welcome_email, send_admin_verification_email
 from ChatBot.views.util.RegistrationUtil import validate_reg_form, create_admin_user, create_cb_user
 from django.utils.crypto import get_random_string
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import json
 
 
@@ -47,7 +47,8 @@ class UserRegistration(ListView):
     # Get Request Handler
     def get(self, request):
         # type: (object) -> object
-
+        if request.user.is_authenticated:
+            return HttpResponseRedirect("/chatbot")
         # Serve registration registration. give path relative to templates folder
         return render(request, "registration/registration.html")
 
