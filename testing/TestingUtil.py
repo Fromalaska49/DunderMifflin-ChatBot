@@ -2,10 +2,14 @@ import sys
 import os.path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from ChatBot.views.misc.Constants import *
-from ChatBot.models import User
 from django.contrib.auth.models import User as AuthUser
-from django.contrib.auth.models import Permission
 import inspect
+import json
+
+
+def print_expected_received(expected_obj, json_received):
+    print "\tExpected: " + json.dumps(expected_obj)
+    print "\tReceived: " + json_received
 
 
 def determine_result(test_result, total_results):

@@ -1,19 +1,14 @@
 import sys
 import os.path
-sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.append(os.path.join(os.path.dirname(__file__), '../../'))
 from ChatBot.views.misc.Constants import *
 from ChatBot.views.registration.UserRegistration import UserRegistration
-from django.utils.crypto import get_random_string
+from testing.TestingUtil import print_expected_received
 import json
 '''Do Not Change Import Order'''
 
 URL = LOCALHOST + REGISTRATION_ENDPT
 view = UserRegistration.as_view()
-
-
-def print_expected_received(expected_obj, json_received):
-    print "\tExpected: " + json.dumps(expected_obj)
-    print "\tReceived: " + json_received
 
 
 class RegistrationTest:

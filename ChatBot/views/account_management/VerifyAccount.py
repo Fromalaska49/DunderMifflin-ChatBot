@@ -10,7 +10,6 @@ from django.http import Http404
 class VerifyAccount(ListView):
 
     def get(self, request, token):
-        print token
 
         if token is None:
             raise Http404()

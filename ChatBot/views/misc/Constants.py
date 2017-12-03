@@ -23,6 +23,7 @@ RESPONSE = 'RESPONSE'
 # Used in Testing
 NUM_PASS = 'NUM_PASS'
 NUM_FAIL = 'NUM_FAIL'
+TEST_VERIF_TOKEN = 'ACNENWOIRNBY'
 
 # Toy UTSA OIT Email
 OIT_EMAIL = 'oitutsa@mailinator.com'
@@ -77,4 +78,5 @@ LOCALHOST = '127.0.0.1:8000'
 
 # Endpoints
 REGISTRATION_ENDPT = '/registration'
+VERIFICATION_ENDPT = '/verify'
 
