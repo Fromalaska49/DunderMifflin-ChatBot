@@ -1,4 +1,4 @@
-#from django import forms
+# from django import forms
 import re
 from django.contrib.auth.models import User
 from django import forms
@@ -31,3 +31,5 @@ class ValidatingPasswordChangeForm(auth.forms.PasswordChangeForm):
 
         if re.search(r'(?=(?:.*[!@#$%&*-+]){2})', password1) is None:
             raise forms.ValidationError(PASS_SYMBOL_ERROR)
+
+        return password1

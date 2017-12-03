@@ -50,6 +50,7 @@ urlpatterns = [
     url(r'^change', ChangePassword.as_view(), name="change_password_handler"),
     url(r'^change_password', password_change,
         {'password_change_form': ValidatingPasswordChangeForm}),
-    url(r'^password_changed/$', password_change_done, {'template_name': 'change_password/change_password.html'},
+    url(r'^password_changed', password_change_done, {'template_name': 'change_password/change_password.html'},
         name='password_change_done'),
+    url(r'^delete_success', DeleteUser.as_view(), name="delete_success_handler"),
 ]
