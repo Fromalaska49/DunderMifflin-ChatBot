@@ -173,15 +173,14 @@ class RegistrationTest:
 
     @staticmethod
     def test_registration_chatbot_user_success(request_factory):
-        random_email = 'randomgen' + get_random_string() + '@mailinator.com'
         params = params = {
-            EMAIL: random_email,
+            EMAIL: TEST_USER_EMAIL,
             PASSWORD: "SomePassword123!@#",
             CONFIRM_PASSWORD: "SomePassword123!@#",
             FIRST_NAME: "Max",
             LAST_NAME: "Pegasus"
         }
-        print "\tTesting Successful ChatBot User Registration Using Random Email: " + random_email + \
+        print "\tTesting Successful ChatBot User Registration Using Email: " + TEST_USER_EMAIL + \
               "\n\tCreates Account and Sends Verification Email (Email Transporting May Take a Few Moments...)"
         request = request_factory.post(URL, params)
         response = view(request)
@@ -192,16 +191,15 @@ class RegistrationTest:
 
     @staticmethod
     def test_registration_admin_user_success(request_factory):
-        random_email = 'randomgen' + get_random_string() + '@mailinator.com'
         params = params = {
-            EMAIL: random_email,
+            EMAIL: TEST_ADMIN_EMAIL,
             PASSWORD: "SomePassword123!@#",
             CONFIRM_PASSWORD: "SomePassword123!@#",
             FIRST_NAME: "Max",
             LAST_NAME: "Pegasus",
             ACCOUNT_TYPE: ADMIN
         }
-        print "\tTesting Successful Admin User Registration Using Random Email: " + random_email + \
+        print "\tTesting Successful Admin User Registration Using Random Email: " + TEST_ADMIN_EMAIL + \
               "\n\tCreates Account and Sends Verification Email to OIT for Admin Account Confirmation. " \
               "\n\tDevelopment OIT email: " + OIT_EMAIL + \
               "\n\t(Email Transporting May Take a Few Moments...)"

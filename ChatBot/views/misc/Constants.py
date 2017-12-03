@@ -20,6 +20,10 @@ QUESTION_TEXT = 'QUESTION_TEXT'
 KEYWORDS = 'KEYWORDS'
 RESPONSE = 'RESPONSE'
 
+# Used in Testing
+NUM_PASS = 'NUM_PASS'
+NUM_FAIL = 'NUM_FAIL'
+
 # Toy UTSA OIT Email
 OIT_EMAIL = 'oitutsa@mailinator.com'
 
@@ -47,6 +51,8 @@ ENTER_EMAIL = 'Please enter your email'
 
 # Constants Used in General Statements
 LOGIN_ATTEMPT_LIMIT = 5
+TEST_USER_EMAIL = 'chatbotUserTestEmail__@mailinator.com'
+TEST_ADMIN_EMAIL = 'chatbotAdminTestEmail__@mailinator.com'
 
 
 # Password Constraint Messages
