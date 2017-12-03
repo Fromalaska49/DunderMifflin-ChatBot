@@ -6,6 +6,7 @@ ACCOUNT_TYPE = 'ACCOUNT_TYPE'
 CHANGE_TYPE = 'CHANGE_TYPE'
 FIRST_NAME = 'FIRST_NAME'
 HTTP_HOST = 'HTTP_HOST'
+HTTP_PREFIX = 'http://'
 LAST_NAME = 'LAST_NAME'
 RET_CODE = 'RET_CODE'
 PASSWORD = 'PASSWORD'
@@ -66,7 +67,7 @@ FNAME_ERROR = 'Please enter a first name'
 LNAME_ERROR = 'Please entere a last name'
 
 # Localhost
-LOCALHOST = 'http://127.0.0.1:8000'
+LOCALHOST = '127.0.0.1:8000'
 
 # Endpoints
 REGISTRATION_ENDPT = '/registration'

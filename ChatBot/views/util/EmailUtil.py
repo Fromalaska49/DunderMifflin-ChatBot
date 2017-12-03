@@ -3,14 +3,14 @@ from ChatBot.views.misc.Constants import *
 
 
 def send_welcome_email(email, host, token):
-    link = 'http://' + host + '/verify/' + token
+    link = HTTP_PREFIX + host + '/verify/' + token
     send_mail('Your New ChatBotAccount', 'You have created a new chatbot account. '
                                          'You may activate this account by clicking '
                                          'on this link: ' + link, CHATBOT_EMAIL, [email])
 
 
 def send_admin_verification_email(fname, lname, email, host, token):
-    link = 'http://' + host + '/verify/' + token
+    link = HTTP_PREFIX + host + '/verify/' + token
     send_mail('ChatBot Administrator Account Creation',
               'A ChatBot administrator account has been created using the following information:\n\n'
               'First Name:\t' + fname + '\n'
@@ -23,7 +23,7 @@ def send_admin_verification_email(fname, lname, email, host, token):
 
 
 def send_account_locked_email(email, host, token):
-    link = 'http://' + host + '/unlock/' + token
+    link = HTTP_PREFIX + host + '/unlock/' + token
     send_mail('Your ChatBot Account Has Been Locked', 'Your account has been locked. '
                                                       'You may unlock your account by clicking '
                                                       'on this link: ' + link, CHATBOT_EMAIL, [email])
@@ -38,7 +38,7 @@ def send_admin_verified_email(email, host):
 
 
 def send_pass_reset_email(email, host, token):
-    link = 'http://' + host + '/reset/' + token
+    link = HTTP_PREFIX + host + '/reset/' + token
     send_mail('Reset Your ChatBot Account Password',
               'You have indicated that you would like to reset your password. '
               'You may reset your password by clicking '

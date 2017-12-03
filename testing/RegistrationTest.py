@@ -3,6 +3,7 @@ import os.path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from ChatBot.views.misc.Constants import *
 from ChatBot.views.registration.UserRegistration import UserRegistration
+from django.utils.crypto import get_random_string
 import json
 '''Do Not Change Import Order'''
 
@@ -169,3 +170,45 @@ class RegistrationTest:
         response_object = json.loads(response.content)
 
         return response_object[ERROR] == True and response_object[MSG] == PASS_LENGTH_ERROR
+
+    @staticmethod
+    def test_registration_chatbot_user_success(request_factory):
+        random_email = 'randomgen' + get_random_string() + '@mailinator.com'
+        params = params = {
+            EMAIL: random_email,
+            PASSWORD: "SomePassword123!@#",
+            CONFIRM_PASSWORD: "SomePassword123!@#",
+            FIRST_NAME: "Max",
+            LAST_NAME: "Pegasus"
+        }
+        print "\tTesting Successful ChatBot User Registration Using Random Email: " + random_email + \
+              "\n\tCreates Account and Sends Verification Email (Email Transporting May Take a Few Moments...)"
+        request = request_factory.post(URL, params)
+        response = view(request)
+        print_expected_received({ERROR: False, MSG: CREATED_USER}, response.content)
+        response_object = json.loads(response.content)
+
+        return response_object[ERROR] == False and response_object[MSG] == CREATED_USER
+
+    @staticmethod
+    def test_registration_admin_user_success(request_factory):
+        random_email = 'randomgen' + get_random_string() + '@mailinator.com'
+        params = params = {
+            EMAIL: random_email,
+            PASSWORD: "SomePassword123!@#",
+            CONFIRM_PASSWORD: "SomePassword123!@#",
+            FIRST_NAME: "Max",
+            LAST_NAME: "Pegasus",
+            ACCOUNT_TYPE: ADMIN
+        }
+        print "\tTesting Successful Admin User Registration Using Random Email: " + random_email + \
+              "\n\tCreates Account and Sends Verification Email to OIT for Admin Account Confirmation. " \
+              "\n\tDevelopment OIT email: " + OIT_EMAIL + \
+              "\n\t(Email Transporting May Take a Few Moments...)"
+        request = request_factory.post(URL, params)
+        response = view(request)
+        print_expected_received({ERROR: False, MSG: CREATED_ADMIN}, response.content)
+        response_object = json.loads(response.content)
+
+        return response_object[ERROR] == False and response_object[MSG] == CREATED_ADMIN
+

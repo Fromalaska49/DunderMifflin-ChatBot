@@ -32,13 +32,13 @@ class UserRegistration(ListView):
 
             if acct_type is None or acct_type != ADMIN:
                 create_cb_user(fname, lname, email, password, token)
-                send_welcome_email(email, request.META[HTTP_HOST], token)
+                send_welcome_email(email, request.META.get(HTTP_HOST, LOCALHOST), token)
                 response_data[ERROR] = False
                 response_data[MSG] = CREATED_USER
 
             else:
                 create_admin_user(fname, lname, email, password, token)
-                send_admin_verification_email(fname, lname, email, request.META[HTTP_HOST], token)
+                send_admin_verification_email(fname, lname, email, request.META.get(HTTP_HOST, LOCALHOST), token)
                 response_data[ERROR] = False
                 response_data[MSG] = CREATED_ADMIN
 
