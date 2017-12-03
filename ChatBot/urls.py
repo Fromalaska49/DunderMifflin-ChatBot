@@ -25,6 +25,7 @@ from .views.account_management.UnlockAccount import UnlockAccount
 from .views.account_management.VerifyAccount import VerifyAccount
 from .views.account_management.RequestChange import RequestChange
 from .views.account_management.ResetPassword import ResetPassword
+from .views.intent_management.GetIntent import GetIntent
 from .views.login.Login import Login
 from django.contrib import auth
 from .views.forgot.Forgot import Forgot
@@ -53,4 +54,5 @@ urlpatterns = [
     url(r'^password_changed', password_change_done, {'template_name': 'change_password/change_password.html'},
         name='password_change_done'),
     url(r'^delete_success', DeleteUser.as_view(), name="delete_success_handler"),
+    url(r'^intents', GetIntent.as_view(), name="intent_management"),
 ]
