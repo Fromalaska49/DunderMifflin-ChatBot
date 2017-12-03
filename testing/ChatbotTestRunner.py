@@ -12,6 +12,7 @@ from TestingUtil import *
 from rest_framework.test import APIRequestFactory
 from testing.test_classes.RegistrationTest import RegistrationTest
 from testing.test_classes.VerificationTest import VerificationTest
+from testing.test_classes.LoginTest import LoginTest
 from ChatBot.models import User
 '''Imports and settings configuration MUST be interleaved above'''
 
@@ -37,6 +38,9 @@ test_user.save()
 
 # Test Account Verification Functionality
 run_test_class(VerificationTest, request_factory, total_results)
+
+# Test Login Functionality. This MUST run after the registration and verification test classes
+run_test_class(LoginTest, request_factory, total_results)
 
 print 'Total Tests Passed: ' + str(total_results[NUM_PASS])
 print 'Total Tests Failed: ' + str(total_results[NUM_FAIL])

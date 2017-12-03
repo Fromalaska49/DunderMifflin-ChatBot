@@ -17,8 +17,8 @@ class RegistrationTest:
     def test_registration_blank_email(request_factory):
         params = params = {
             EMAIL: "",
-            PASSWORD: "SomePasswd123!@#",
-            CONFIRM_PASSWORD: "SomePasswd123!@#",
+            PASSWORD: TEST_USER_PSSWD,
+            CONFIRM_PASSWORD: TEST_USER_PSSWD,
             FIRST_NAME: "Max",
             LAST_NAME: "Pegasus"
         }
@@ -34,8 +34,8 @@ class RegistrationTest:
     def test_registration_bad_email(request_factory):
         params = params = {
             EMAIL: "hello@bademail",
-            PASSWORD: "SomePasswd123!@#",
-            CONFIRM_PASSWORD: "SomePasswd123!@#",
+            PASSWORD: TEST_USER_PSSWD,
+            CONFIRM_PASSWORD: TEST_USER_PSSWD,
             FIRST_NAME: "Max",
             LAST_NAME: "Pegasus"
         }
@@ -50,9 +50,9 @@ class RegistrationTest:
     @staticmethod
     def test_registration_blank_fname(request_factory):
         params = params = {
-            EMAIL: "hello@maillinator.com",
-            PASSWORD: "SomePasswd123!@#",
-            CONFIRM_PASSWORD: "SomePasswd123!@#",
+            EMAIL: TEST_USER_EMAIL,
+            PASSWORD: TEST_USER_PSSWD,
+            CONFIRM_PASSWORD: TEST_USER_PSSWD,
             FIRST_NAME: "",
             LAST_NAME: "Pegasus"
         }
@@ -67,9 +67,9 @@ class RegistrationTest:
     @staticmethod
     def test_registration_blank_lname(request_factory):
         params = params = {
-            EMAIL: "hello@maillinator.com",
-            PASSWORD: "SomePasswd123!@#",
-            CONFIRM_PASSWORD: "SomePasswd123!@#",
+            EMAIL: TEST_USER_EMAIL,
+            PASSWORD: TEST_USER_PSSWD,
+            CONFIRM_PASSWORD: TEST_USER_PSSWD,
             FIRST_NAME: "Max",
             LAST_NAME: ""
         }
@@ -84,7 +84,7 @@ class RegistrationTest:
     @staticmethod
     def test_registration_bad_psswd_digits(request_factory):
         params = params = {
-            EMAIL: "hello@maillinator.com",
+            EMAIL: TEST_USER_EMAIL,
             PASSWORD: "SomePasswd!@#",
             CONFIRM_PASSWORD: "SomePasswd!@#",
             FIRST_NAME: "Max",
@@ -101,7 +101,7 @@ class RegistrationTest:
     @staticmethod
     def test_registration_bad_psswd_uppercase(request_factory):
         params = params = {
-            EMAIL: "hello@maillinator.com",
+            EMAIL: TEST_USER_EMAIL,
             PASSWORD: "somepasswd123!@#",
             CONFIRM_PASSWORD: "somepasswd123!@#",
             FIRST_NAME: "Max",
@@ -118,7 +118,7 @@ class RegistrationTest:
     @staticmethod
     def test_registration_bad_psswd_symbols(request_factory):
         params = params = {
-            EMAIL: "hello@maillinator.com",
+            EMAIL: TEST_USER_EMAIL,
             PASSWORD: "SomePasswd123",
             CONFIRM_PASSWORD: "SomePasswd123",
             FIRST_NAME: "Max",
@@ -135,7 +135,7 @@ class RegistrationTest:
     @staticmethod
     def test_registration_bad_psswd_match(request_factory):
         params = params = {
-            EMAIL: "hello@maillinator.com",
+            EMAIL: TEST_USER_EMAIL,
             PASSWORD: "SomePasswd123!@#",
             CONFIRM_PASSWORD: "SomePasswd456!@#",
             FIRST_NAME: "Max",
@@ -152,7 +152,7 @@ class RegistrationTest:
     @staticmethod
     def test_registration_bad_psswd_length(request_factory):
         params = params = {
-            EMAIL: "hello@maillinator.com",
+            EMAIL: TEST_USER_EMAIL,
             PASSWORD: "SoP12!@",
             CONFIRM_PASSWORD: "SoP12!@",
             FIRST_NAME: "Max",

@@ -53,6 +53,7 @@ ENTER_EMAIL = 'Please enter your email'
 # Constants Used in General Statements
 LOGIN_ATTEMPT_LIMIT = 5
 TEST_USER_EMAIL = 'chatbotUserTestEmail__@mailinator.com'
+TEST_USER_PSSWD = 'SomePassword123!@#'
 TEST_ADMIN_EMAIL = 'chatbotAdminTestEmail__@mailinator.com'
 
 
@@ -79,4 +80,5 @@ LOCALHOST = '127.0.0.1:8000'
 # Endpoints
 REGISTRATION_ENDPT = '/registration'
 VERIFICATION_ENDPT = '/verify'
+LOGIN_ENDPT = '/login'
 

@@ -42,3 +42,7 @@ def delete_test_user():
 
 def delete_test_admin():
     __delete_account(TEST_ADMIN_EMAIL)
+
+
+class Session(dict):
+    modified = None
