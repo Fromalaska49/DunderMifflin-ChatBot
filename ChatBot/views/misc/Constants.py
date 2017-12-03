@@ -72,7 +72,7 @@ EMAIL_INVALID_ERROR = 'You must provide a valid email address'
 
 # Name Error Messages
 FNAME_ERROR = 'Please enter a first name'
-LNAME_ERROR = 'Please entere a last name'
+LNAME_ERROR = 'Please enter a last name'
 
 # Localhost
 LOCALHOST = '127.0.0.1:8000'
