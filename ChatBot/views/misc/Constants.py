@@ -19,13 +19,15 @@ MSG = 'MESSAGE'
 ADMIN = 'ADMIN'
 USER = 'USER'
 QUESTION_TEXT = 'QUESTION_TEXT'
+INTENT_NAME = 'INTENT_NAME'
+INTENT_USER_SAYS = 'INTENT_USER_SAYS'
+INTENT_RESPONSE = 'INTENT_RESPONSE'
 
 # Toy UTSA OIT Email
 OIT_EMAIL = 'oitutsa@mailinator.com'
 
 # Toy ChatBot system email
 CHATBOT_EMAIL = 'chatbotutsa@mailinator.com'
-
 
 # Canned ChatBot Responses That Should Not Require DB Access
 ATTEMPTS_EXCEEDED = 'You have exceeded the maximum number of login attempts. This account has been locked for security reasons. ' \
@@ -47,10 +49,8 @@ ENTER_PASSWORD = 'Please enter your password.'
 INCORRECT_PARAMETERS = 'Incorrect parameters'
 ENTER_EMAIL = 'Please enter your email.'
 
-
 # Constants Used in General Statements
 LOGIN_ATTEMPT_LIMIT = 5
-
 
 # Password Constraint Messages
 PASS_UPPERCASE_ERROR = 'Your password must contain at least two uppercase letters'
@@ -59,16 +59,19 @@ PASS_NUMBER_ERROR = 'Your password must contain at least two digits'
 PASS_LENGTH_ERROR = 'Your password must be at least 8 characters long'
 PASS_MATCH_ERROR = 'Your passwords do not match'
 
-
 # Email Error Messages
 EMAIL_TAKEN_ERROR = 'This email is already in use'
 EMAIL_INVALID_ERROR = 'You must provide a valid email address'
-
 
 # Name Error Messages
 FNAME_ERROR = 'Please enter a first name'
 LNAME_ERROR = 'Please entere a last name'
 
-
 # API.AI client key
-API_KEY = '8f652156aa8a434daaf9e9d3eb174313'
+API_CLIENT_KEY = '8f652156aa8a434daaf9e9d3eb174313'
+API_DEV_KEY = '670486e053a84bd88285c0b3f03cddcb'
+
+# API.AI URL
+API_URL = 'https://api.dialogflow.com/v1/intents'
+API_URL_TAIL = '?v=20150910&lang=en'
+API_HEADER = {"Content-Type": "application/json", "Authorization": "Bearer 670486e053a84bd88285c0b3f03cddcb"}
