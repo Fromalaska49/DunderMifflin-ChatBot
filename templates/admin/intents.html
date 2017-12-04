@@ -48,15 +48,17 @@
         var data = intent_data.filter((x => x['id'] == id));
         $("#output").html("<hr>");
         data[0]['templates'].forEach(function(elem) {
-            $("#output").append("<div class=\"intention\">\"" + elem['text'] + "\"<a href=\"#\" onclick=\"removeIntention(" + 1 + ")\" class=\"alert-danger\" style=\"float: right\">Remove Intention</a></div><hr>")
+            $("#output").append("<div class=\"intention\">\"" + elem['text'] + "\"<a href=\"#\" onclick=\"removeIntention(\'" + id + "," + elem['id'] + "\')\" class=\"alert-danger\" style=\"float: right\">Remove Intention</a></div><hr>")
         });
         $("#add_new").html("Add New Intention");
+        $("#add_new").after("&nbsp;&nbsp;<input type=\"text\" id=\"new_text\" placeholder=\"New Intention\">");
+        $("#add_new").attr("href", "#");
+        $("#add_new").click(function() { addIntention(id, $("#new_text").val()) });
         $("#home").html("Main Page");
         $("#home").click(updateMain);
-        $("#add_new").click(function() { alert(); });
     };
 
-    function removeIntent(id) {
+    function removeIntent(id, callback) {
         $("#intent_id").val(id);
         var q = $("#query").serialize();
         $.ajax({
@@ -65,11 +67,43 @@
             data: q,
             success: function(data) {
                 alert("Successfully deleted intent id " + id);
-                getIntents();
+                if(callback) {
+                    callback();
+                } else {
+                    getIntents();
+                }
             },
             error: function(data) {
                 alert("error: " + data);
             }
+        });
+    }
+
+    function removeIntention(ids) {
+        var id_list = ids.split(',');
+        if(id_list.length != 2) {
+            alert("Error: unable to process request");
+            return;
+        }
+        var parent_id = id_list[0];
+        var intention_id = id_list[1];
+        var parent = intent_data.filter((x => x['id'] == parent_id))[0];
+        var new_intention_list = parent['templates'].filter(x => x['id'] != intention_id).map(x => x['text']);
+        removeIntent(parent_id, function() {
+            addIntent(parent['name'], new_intention_list.join("\n"), parent['response']);
+        });
+    }
+
+    function addIntention(parent_id, text) {
+        if(text.length == 0) {
+            alert("Error: New intention must contain text.");
+            return;
+        }
+        var parent = intent_data.filter((x => x['id'] == parent_id))[0];
+        var new_intention_list = parent['templates'].map(x => x['text']);
+        new_intention_list.push(text);
+        removeIntent(parent_id, function() {
+            addIntent(parent['name'], new_intention_list.join("\n"), parent['response']);
         });
     }
 
@@ -87,13 +121,35 @@
         });
     }
 
+    function addIntent(name, user_says, response) {
+        $.ajax({
+            url: "/add_intent",
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: $("#query input[name=\"csrfmiddlewaretoken\"]").first().val(),
+                INTENT_NAME: name,
+                INTENT_USER_SAYS: user_says,
+                INTENT_RESPONSE: response
+            },
+            success: function(data) {
+                getIntents();
+            },
+            error: function(data) {
+                alert(data);
+            }
+        })
+    }
+
     function updateMain() {
         $("#output").html("<hr>");
         intent_data.forEach(function(elem) {
             $("#output").append("<div class=\"intent_entry\"><a href=\"#\" onclick=\"showDetail('"+elem['id']+"')\">" + elem['name'] +
                 "</a><a href=\"#\" class=\"alert-danger\" style=\"float: right\" onclick=\"removeIntent('"+elem['id']+"')\">Delete Question</a></div><hr>");
         });
-        $("#add_new").html("Add New Question");
+        $("#add_new").html("Add New Intent");
+        $("#new_text").remove();
+        $("#add_new").attr("href", "/add_intent");
+        $("#add_new").click(function() {  });
         $("#home").html("");
     }
 

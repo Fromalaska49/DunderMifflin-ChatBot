@@ -25,21 +25,29 @@ class GetIntent(LoginRequiredMixin, ListView):
         intent_output = []
         for intent in intent_json:
             templates = []
-            intent_id = intent['id']
-            intent_name = intent['name']
+            if 'id' in intent and 'name' in intent:
+                intent_id = intent['id']
+                intent_name = intent['name']
+            else:
+                continue
 
             intent_info = requests.get(API_URL + '/' + intent_id + '/' + API_URL_TAIL, headers=API_HEADER)
             intent_info_data = ''
             for line in intent_info:
                 intent_info_data += line
             intent_info_json = json.loads(intent_info_data)
-            user_says = intent_info_json['userSays']
-            for statement in user_says:
-                template = {'id': statement['id'], 'text': statement['data'][0]['text']}
-                templates.append(template)
-
+            if 'responses' in intent_info_json and 'messages' in intent_info_json['responses'][0]:
+                response = intent_info_json['responses'][0]['messages'][0]['speech']
+                user_says = intent_info_json['userSays']
+                for statement in user_says:
+                    if(len(statement['data']) > 0):
+                        template = {'id': statement['id'], 'text': statement['data'][0]['text']}
+                        templates.append(template)
+            else:
+                response = ''
             temp = {'id': intent_id,
                     'name': intent_name,
+                    'response': response,
                     'templates': templates}
             intent_output.append(temp)
 
