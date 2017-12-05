@@ -9,7 +9,7 @@ import apiai
 
 logger = logging.getLogger(__name__)
 
-class ChatBotHandler(LoginRequiredMixin, ListView):
+class ChatBotEmbedHandler(LoginRequiredMixin, ListView):
     #only works for admin atm
     #restricts chatbot usage to only logged in users
 
@@ -38,4 +38,4 @@ class ChatBotHandler(LoginRequiredMixin, ListView):
     def get(self, request):
         # type: (object) -> object
         """ Standard get function. """
-        return render(request, "chat/chat.html")
+        return render(request, "embed/embed.html")

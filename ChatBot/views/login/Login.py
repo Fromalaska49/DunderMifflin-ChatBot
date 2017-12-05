@@ -1,8 +1,9 @@
+from __future__ import print_function
 from django.urls import reverse
 from django.views.generic import ListView
 from django.contrib.auth import authenticate
 from django.contrib.auth import login
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, request
 from django.shortcuts import render
 from ChatBot.views.util.EmailUtil import send_account_locked_email
 from ChatBot.views.util.AuthenticationUtil import *
@@ -41,7 +42,6 @@ class Login(ListView):
                         send_account_locked_email(email, request.META[HTTP_HOST], token)
 
                 return_data[MSG] = ATTEMPTS_EXCEEDED
-
         else:
             reset_login_attempts(request.session, email)
 
@@ -58,12 +58,9 @@ class Login(ListView):
             else:
                 return_data[ERROR] = True
                 return_data[MSG] = ACCOUNT_NOT_VERIFIED
-
         return HttpResponse(json.dumps(return_data), content_type="application/json")
 
-        # Get Request Handler
-
     def get(self, request):
-        # type: (object) -> object
-        # Serve registration registration. give path relative to templates folder
+        if request.user.is_authenticated:
+            return HttpResponseRedirect("/chatbot")
         return render(request, "admin/login.html")

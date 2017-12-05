@@ -1,0 +1,177 @@
+{% extends 'main_template.html' %}
+{% load static %}
+
+{% block title %}Question Management{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12"><h2 style="text-align: center;">Questions</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-1 col-md-2 col-lg-3 hidden-xs-down spacer">
+        </div>
+        <div id="chatbot-container" class="col-sm-10 col-md-8 col-lg-6 col-xs-12"
+             style="border-style:solid;border-color:black;border-width:1px;background-color:#ffffff;">
+            <div id="output">
+
+            </div>
+            <form id="query">
+                {% csrf_token %}
+                <div class="row" style="padding:10px;background-color:#cdcdcd;">
+                    <div id="user-entry" class="col-sm-12">
+                        <a href="/add_intent" id="add_new">Add New Question</a>
+                        <a href="#" style="float: right;" id="home"></a>
+                    </div>
+                </div>
+                <input type="hidden" id="intent_id" name="INTENT_ID" />
+            </form>
+        </div>
+        <div class="col-sm-1 col-md-2 col-lg-3 hidden-xs-down spacer">
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block javascript %}
+<script type="text/javascript">
+    //encodes String for use in HTML
+    var intent_data = {};
+
+    String.prototype.htmlEncode = function(){
+        return $("<div></div>").text(this).html();
+    };
+
+    function showDetail(id) {
+        var data = intent_data.filter((x => x['id'] == id));
+        $("#output").html("<hr>");
+        data[0]['templates'].forEach(function(elem) {
+            $("#output").append("<div class=\"intention\">\"" + elem['text'] + "\"<a href=\"#\" onclick=\"removeIntention(\'" + id + "," + elem['id'] + "\')\" class=\"alert-danger\" style=\"float: right\">Remove Intention</a></div><hr>")
+        });
+        $("#add_new").html("Add New Intention");
+        $("#add_new").after("&nbsp;&nbsp;<input type=\"text\" id=\"new_text\" placeholder=\"New Intention\">");
+        $("#add_new").attr("href", "#");
+        $("#add_new").click(function() { addIntention(id, $("#new_text").val()) });
+        $("#home").html("Main Page");
+        $("#home").click(updateMain);
+    };
+
+    function removeIntent(id, callback) {
+        $("#intent_id").val(id);
+        var q = $("#query").serialize();
+        $.ajax({
+            url: "/remove_intent",
+            type: "POST",
+            data: q,
+            success: function(data) {
+                alert("Successfully deleted intent id " + id);
+                if(callback) {
+                    callback();
+                } else {
+                    getIntents();
+                }
+            },
+            error: function(data) {
+                alert("error: " + data);
+            }
+        });
+    }
+
+    function removeIntention(ids) {
+        var id_list = ids.split(',');
+        if(id_list.length != 2) {
+            alert("Error: unable to process request");
+            return;
+        }
+        var parent_id = id_list[0];
+        var intention_id = id_list[1];
+        var parent = intent_data.filter((x => x['id'] == parent_id))[0];
+        var new_intention_list = parent['templates'].filter(x => x['id'] != intention_id).map(x => x['text']);
+        removeIntent(parent_id, function() {
+            addIntent(parent['name'], new_intention_list.join("\n"), parent['response']);
+        });
+    }
+
+    function addIntention(parent_id, text) {
+        if(text.length == 0) {
+            alert("Error: New intention must contain text.");
+            return;
+        }
+        var parent = intent_data.filter((x => x['id'] == parent_id))[0];
+        var new_intention_list = parent['templates'].map(x => x['text']);
+        new_intention_list.push(text);
+        removeIntent(parent_id, function() {
+            addIntent(parent['name'], new_intention_list.join("\n"), parent['response']);
+        });
+    }
+
+    function getIntents() {
+        var q = $("#query").serialize();
+        $("#output").html("<div style=\"margin: 10px\" class=\"alert-warning\"><h3>Loading...</h2></div>");
+        $.ajax({
+            url: "/get_intents",
+            type: "POST",
+            data: q,
+            success: function(data) { intent_data = data; updateMain() },
+            error: function(data) {
+                $("#output").html("Error: " + data + "<br>");
+            }
+        });
+    }
+
+    function addIntent(name, user_says, response) {
+        $.ajax({
+            url: "/add_intent",
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: $("#query input[name=\"csrfmiddlewaretoken\"]").first().val(),
+                INTENT_NAME: name,
+                INTENT_USER_SAYS: user_says,
+                INTENT_RESPONSE: response
+            },
+            success: function(data) {
+                getIntents();
+            },
+            error: function(data) {
+                alert(data);
+            }
+        })
+    }
+
+    function updateMain() {
+        $("#output").html("<hr>");
+        intent_data.forEach(function(elem) {
+            $("#output").append("<div class=\"intent_entry\"><a href=\"#\" onclick=\"showDetail('"+elem['id']+"')\">" + elem['name'] +
+                "</a><a href=\"#\" class=\"alert-danger\" style=\"float: right\" onclick=\"removeIntent('"+elem['id']+"')\">Delete Question</a></div><hr>");
+        });
+        $("#add_new").html("Add New Intent");
+        $("#new_text").remove();
+        $("#add_new").attr("href", "/add_intent");
+        $("#add_new").click(function() {  });
+        $("#home").html("");
+    }
+
+    $(document).ready(function() {
+        getIntents();
+        var settingsPaneVisible = false;
+        $("#settings-button").on("click", function(){
+            $("#settings-pane").fadeIn(200);
+            settingsPaneVisible = true;
+        });
+        $("#settings-pane-exit, #history, #query").on("click", function(){
+            if(settingsPaneVisible){
+                $("#settings-pane").fadeOut(200);
+                settingsPaneVisible = false;
+            }
+        });
+        $("#clear-history-button").on("click", function(){
+            $("#history").html("");
+            $("#settings-pane").fadeOut(200);
+        });
+    });
+
+
+</script>
+{% endblock %}
