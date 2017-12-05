@@ -16,7 +16,7 @@ class DeleteUser(SuccessMessageMixin, LoginRequiredMixin, DeleteView):
     # gets instance of user and allows for only authorized
     # deletions. User must be logged in
     model = models.User
-    success_url = reverse_lazy('login_handler')
+    success_url = reverse_lazy('registration')
     success_message = DELETE_SUCCESS
     template_name = 'delete/delete_user.html'
 

@@ -10,6 +10,16 @@
         <div class="col-sm-1 col-md-2 col-lg-3 hidden-xs-down spacer">
         </div>
         <div id="registration-div" class="col-sm-10 col-md-8 col-lg-6 col-xs-12">
+            <div>
+                {% if messages %}
+                {% for message in messages %}
+                <p class="alert alert-dismissable {% if message.tags %}alert-{{ message.tags }}" {% endif %}>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" onmouseover="this.style.backgroundColor='inherit';this.style.top='0px';this.style.boxShadow='0px 0px 0px 0px #000000';">&times;</button>
+                    {{ message }}
+                </p>
+                {% endfor %}
+                {% endif %}
+            </div>
             <h2>
                 Register
             </h2>
