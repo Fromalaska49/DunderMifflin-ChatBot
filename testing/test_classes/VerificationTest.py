@@ -15,13 +15,14 @@ class VerificationTest:
     def test_verification_success(request_factory):
         request = request_factory.get(URL + "/" + TEST_VERIF_TOKEN)
         request.session = Session()
-        expected = 'Account successfully activated!'
+        expected = 'Status code: 302 (Redirection) Url: /login'
         print '\tTesting Successful Verification For Test User Using Test Token: ' + TEST_VERIF_TOKEN
 
         # Test get method directly
         response = VerifyAccount().get(request, TEST_VERIF_TOKEN)
-        content = response.content.strip()
-        print '\tExpected: ' + expected
-        print '\tReceived: ' + content
 
-        return expected == content
+        # successful verification should redirect to login page
+        print '\tExpected: ' + expected
+        print '\tReceived: Status code: ' + str(response.status_code) + ' Url: ' + response.url
+
+        return response.status_code == 302 and response.url == '/login'
