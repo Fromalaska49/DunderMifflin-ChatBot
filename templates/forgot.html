@@ -64,7 +64,8 @@
                         if(response.ERROR == false){
                             //successful login
                             $("#password-reset-message-container").addClass("alert-success");
-                            $("#password-reset-message-container").html("Success: a reset link has been sent to " + email.htmlEncode());
+                            $("#password-reset-message-container").removeClass("alert-danger");
+                            $("#password-reset-message-container").html("Succes: a reset link has been sent to " + email.htmlEncode());
                             $("#password-reset-message-container").css("display", "inline-block");
                         }
                         else if(response.ERROR == true){
