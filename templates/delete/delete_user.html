@@ -1,0 +1,36 @@
+{% extends 'main_template.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class='col-sm-12'>
+            <h3 class="alert-danger" style="padding:15px;border-radius:2px;">
+                Delete Account
+            </h3>
+            <br/>
+            {% if request.user.is_authenticated %}
+            <p>
+                Are you sure you want to delete your account?
+            </p>
+            <p>
+                You will no longer be able to login or recover your account with your email {{ request.user.username }}
+            </p>
+            <br/>
+            <form action="" method="POST">
+                {% csrf_token %}
+                <input type="submit" value="Delete" style="background-color:#bc0000;margin-right:10px;"/>
+                <input type="button" value="Cancel" onclick="window.location.replace('{% url 'chatbot_handler' %}')"/>
+            </form>
+            {% else %}
+            <h4>
+                You do not have permission to delete this user.
+            </h4>
+            <a href="/login">Login</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

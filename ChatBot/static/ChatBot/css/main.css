@@ -21,6 +21,21 @@ main {
 	padding: 20px;
 }
 
+#chatbot-embed-container {
+    position: fixed;
+    top: 60px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+#chatbot-embed-container .row #history-window #history {
+    display: block;
+    height: calc(100vh - 64px - 60px);
+    background-color: #ffffff;
+    overflow-y: scroll;
+}
+
 @media (max-width: 767px) {
 	
 	header {
@@ -31,9 +46,24 @@ main {
 	main {
 		margin-top: 36px;
 	}
+	
+    #chatbot-embed-container {
+        position: fixed;
+        top: 44px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+    }
+    
+    #chatbot-embed-container .row #history-window #history {
+        display: block;
+        height: calc(100vh - 64px - 44px);
+        background-color: #ffffff;
+        overflow-y: scroll;
+    }
 }
 
-button, input, select, textarea {
+button, input, select, textarea, .transition {
 	-webkit-transition: all .2s ease;
 	-moz-transition: all .2s ease;
 	-o-transition: all .2s ease;
@@ -53,11 +83,17 @@ button, input[type=button], input[type=submit] {
 	cursor: pointer;
 }
 
-button:hover, input[type=button]:hover, input[type=submit]:hover, button:active, input[type=button]:active, input[type=submit]:active {
+.button-shape {
+    padding: 10px;
+    border-radius: 2px;
+}
+
+button:hover, input[type=button]:hover, input[type=submit]:hover, button:active, input[type=button]:active, input[type=submit]:active, button:focus, input[type=button]:focus, input[type=submit]:focus {
 	top: -3px;
 	box-shadow: 0px 3px 10px -3px #000000;
 	background-color: #f47321;
 	color: #ffffff;
+	outline-style: none;
 }
 
 input[type=text], input[type=password], textarea, select {
@@ -81,11 +117,58 @@ input[type=text]:active, input[type=password]:active, textarea:active, select:ac
 	border-color: #ffffff;
 }
 
-#registrationForm .row, #passwordReset .row {
+#registrationForm .row, #passwordReset .row, #edit-user-form .row {
 	background-color: inherit;
 	padding: 10px 0px;
 }
 
-#registrationForm .row div input[type="text"], #registrationForm .row div input[type="password"], textarea {
+#registrationForm .row div input[type="text"], #registrationForm .row div input[type="password"], #edit-user-form .row div input[type="text"], #edit-user-form .row div input[type="password"] {
 	width: 100%;
+}
+
+#settings-button {
+    border-radius: 100px;
+    padding: 5px;
+    background-color: #002244;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    box-shadow: 0px 2px 6px -4px #000000;
+    cursor: default;
+}
+
+#settings-button:hover {
+    -ms-transform: rotate(-90deg); /* IE 9 */
+    -webkit-transform: rotate(-90deg); /* Chrome, Safari, Opera */
+    transform: rotate(-90deg);
+    /* logical-box-shadow: 0px 5px 10px -5px #000000; */
+    box-shadow: -5px 0px 10px -5px #000000; /* Shifted to account for rotation */
+    cursor: pointer;
+}
+
+#chatbot-embed-container .row #history-window #settings-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+#settings-pane {
+    box-shadow: 0px 5px 10px -5px #000000;
+    overflow: hidden;
+}
+
+.settings-pane-item {
+    margin: 0px -27px;
+    padding: 10px 27px;
+    border-style: solid none none none;
+    border-color: #ffffff;
+    border-width: 1px;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+    background-color: inherit;
+}
+
+.settings-pane-item:hover, .settings-pane-item:active {
+    background-color: #004488;
 }

@@ -1,0 +1,101 @@
+{% extends 'main_template.html' %}
+
+{% block content %}
+    <style>
+    .spaced {
+        margin: 10px;
+    }
+    </style>
+    <div class="container">
+        <div class="row">
+                <div id="change-div" class="col-sm-8 spaced">
+                    <h3>
+                        Forgotten Password
+                    </h3>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <p>
+                                Please provide us with your email so that we can send you a link with instructions to reset your password.
+                            </p>
+                        </div>
+                        <div class="col-sm-12">
+                            <form id="password-reset-form" method="post" action="/requestchange">
+                            {% csrf_token %}
+                                <input type="text" id="email-change" name="EMAIL" placeholder="Email" class="button-shape" style="padding:10px;border-radius:2px;margin-right:8px;min-width:230px;" />
+                                <br />
+                                <input type="text" name="CHANGE_TYPE" value="PASSWORD" style="display:none;" />
+                                <br />
+                                <input type="submit" value="Submit" />
+                                <div id="password-reset-message-container" style="margin-left:10px;" class="button-shape">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascript %}
+
+    <script type="text/javascript">
+        //encodes String for use in HTML
+        String.prototype.htmlEncode = function(){
+            return $("<div></div>").text(this).html();
+        }
+        $(document).ready(function(){
+            $("#password-reset-form").submit(function(e){
+                e.preventDefault();
+                var email = $("#email-change").val();
+                $.ajax({
+                    url: "/requestchange",
+                    cache: false,
+                    method: "post",
+                    data: {
+                        csrfmiddlewaretoken: $("#password-reset-form input[name=\"csrfmiddlewaretoken\"]").first().val(),
+                        CHANGE_TYPE: $("#password-reset-form input[name=\"CHANGE_TYPE\"]").first().val(),
+                        EMAIL: email,
+                        PASSWORD: $("#password").val()
+                    },
+                    success: function(response){
+                        if(response.ERROR == false){
+                            //successful login
+                            $("#password-reset-message-container").addClass("alert-success");
+                            $("#password-reset-message-container").removeClass("alert-danger");
+                            $("#password-reset-message-container").html("Succes: a reset link has been sent to " + email.htmlEncode());
+                            $("#password-reset-message-container").css("display", "inline-block");
+                        }
+                        else if(response.ERROR == true){
+                            //failed login
+                            $("#password-reset-message-container").addClass("alert-danger");
+                            $("#password-reset-message-container").text("Error: " + response.MESSAGE);
+                            $("#password-reset-message-container").css("display", "inline-block");
+                        } 
+                        else{
+                            //response.ERROR undefined, error on server implied
+                            $("#password-reset-message-container").addClass("alert-danger");
+                            $("#password-reset-message-container").text("Error: unknown server error");
+                            $("#password-reset-message-container").css("display", "inline-block");
+                        }
+                    },
+                    error: function(jqXHR, response){
+                        //server error
+                        $("#password-reset-message-container").addClass("alert-danger");
+                        $("#password-reset-message-container").text("Error: server error (" + jqXHR + ")");
+                        $("#password-reset-message-container").css("display", "inline-block");
+                    }
+                });
+            });
+            
+            $("#passwordResetSubmit").on("click", function(e){
+                window.setTimeout(function(e){
+                    submitPasswordReset(e);
+                }, 0);
+            });
+        });
+    </script>
+    
+{% endblock %}

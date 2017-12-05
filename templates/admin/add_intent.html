@@ -11,44 +11,60 @@
     <div class="row">
         <div class="col-md-1 col-lg-2 hidden-sm-down spacer">
         </div>
-        <div id="login-div" class="col-sm-12 col-md-10 col-lg-8 col-xs-12">
+        <div id="main-div" class="col-sm-12 col-md-10 col-lg-8 col-xs-12">
+            <div>
+                {% if messages %}
+                {% for message in messages %}
+                <p class="alert alert-dismissable {% if message.tags %}alert-{{ message.tags }}" {% endif %}>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ message }}
+                </p>
+                {% endfor %}
+                {% endif %}
+            </div>
             <h3>
-                Login
+                Add New Question
             </h3>
             <hr/>
-            <form id="login-form" method="post" class="form fv-form fv-form-bootstrap" action="/login">
+            <div id="main-form" class="form fv-form fv-form-bootstrap">
                 {% csrf_token %}
-                <input type="hidden" name="next" value="{{ request.path }}">
                 <div class="col-sm-4">
-                    <label for="email">
-                        Email:
+                    <label for="Name">
+                        Name:
                     </label>
                 </div>
                 <div class="col-sm-8">
-                    <input type="text" id="email" name="EMAIL">
+                    <input type="text" id="name" name="INTENT_NAME">
                 </div>
                 <br>
                 <div class="col-sm-4">
-                    <label for="password">
-                        Password:
+                    <label for="UserSays">
+                        User Says:
                     </label>
                 </div>
                 <div class="col-sm-8">
-                    <input type="password" id="password" name="PASSWORD">
+                    <textarea id="user_says" name="INTENT_USER_SAYS"></textarea>
+                </div>
+                <br>
+                <div class="col-sm-4">
+                    <label for="response">
+                        Response:
+                    </label>
+                </div>
+                <div class="col-sm-8">
+                    <input type="text" id="response" name="INTENT_RESPONSE">
                 </div>
                 <br>
                 <div class="col-sm-12">
-                    <input type="submit">
+                    <input type="button" id="submit" value="Submit">
                     <div id="login-message-container" style="margin-left:10px;display:none;" class="button-shape">
                     </div>
                 </div>
-            </form>
+            </div>
             <br/>
             <div class="row">
                 <div class="col-sm-12">
-                    <a href="/registration">Create new account</a>
-                    <br>
-                    <a href="/forgot">Forgot Password</a>
+                    <a href="/get_intents">View the current questions</a>
                 </div>
             </div>
         </div>
@@ -62,25 +78,24 @@
             return $("<div></div>").text(this).html();
         }
         $(document).ready(function(){
-            $("#login-form").submit(function(e){
+            $("#submit").click(function(e){
                 e.preventDefault();
                 $.ajax({
-                    url: "/login",
+                    url: "/add_intent",
                     cache: false,
                     method: "post",
                     data: {
-                        csrfmiddlewaretoken: $("#login-form input[name=\"csrfmiddlewaretoken\"]").first().val(),
-                        EMAIL: $("#email").val(),
-                        PASSWORD: $("#password").val()
+                        csrfmiddlewaretoken: $("#main-form input[name=\"csrfmiddlewaretoken\"]").first().val(),
+                        INTENT_NAME: $("#name").val(),
+                        INTENT_USER_SAYS: $("#user_says").val(),
+                        INTENT_RESPONSE: $("#response").val()
                     },
                     success: function(response){
                         if(response.ERROR == false){
                             //successful login
                             $("#login-message-container").addClass("alert-success");
-                            $("#login-message-container").removeClass("alert-danger");
-                            $("#login-message-container").html("Succes: click <a href=\"/chatbot\">here</a> if you are not automatically redirected");
+                            $("#login-message-container").html("Success");
                             $("#login-message-container").css("display", "inline-block");
-                            window.location.replace("/chatbot");
                         }
                         else if(response.ERROR == true){
                             //failed login
