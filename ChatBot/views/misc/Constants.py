@@ -32,8 +32,8 @@ CHATBOT_EMAIL = 'chatbotutsa@mailinator.com'
 
 # Canned ChatBot Responses That Should Not Require DB Access
 ATTEMPTS_EXCEEDED = 'You have exceeded the maximum number of login attempts. This account has been locked for security reasons. ' \
-                    'An email has been sent to this account\'s email address with instructions for ulocking this account.'
-CREATED_ADMIN = 'Your account has been sucessfully created and will become active once an OIT staff member activates it.'
+                    'An email has been sent to this account\'s email address with instructions for unlocking this account.'
+CREATED_ADMIN = 'Your account has been successfully created and will become active once an OIT staff member activates it. Please check your email and click the link to verify your email.'
 ACCOUNT_IS_LOCKED = 'Your account has been locked for security reasons. Please check you email for instructions on ' \
                     'unlocking this account.'
 PASS_RESET_REQ_SUCCESS = 'An email with password reset instructions will be sent to the email address provided if an account' \
@@ -66,7 +66,7 @@ EMAIL_INVALID_ERROR = 'You must provide a valid email address'
 
 # Name Error Messages
 FNAME_ERROR = 'Please enter a first name'
-LNAME_ERROR = 'Please entere a last name'
+LNAME_ERROR = 'Please enter a last name'
 
 # API.AI client key
 API_CLIENT_KEY = '8f652156aa8a434daaf9e9d3eb174313'
