@@ -19,6 +19,7 @@ $(document).ready(function(){
                 if(response['ERROR'] == false){
                     //successful login
                     $("#registration-message-container").addClass("alert-success");
+                    $("#registration-message-container").removeClass("alert-danger");
                     $("#registration-message-container").html("Succes: " + response['MESSAGE']);
                     $("#registration-message-container").css("display", "inline-block");
                     //window.location.replace("/chatbot");

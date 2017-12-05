@@ -131,6 +131,7 @@
                         if(response.ERROR == false){
                             //successful login
                             $("#edit-user-message-container").addClass("alert-success");
+                            $("#edit-user-message-container").removeClass("alert-danger");
                             $("#edit-user-message-container").html("Success: Your changes have been saved");
                             $("#edit-user-message-container").css("display", "inline-block");
                         }
