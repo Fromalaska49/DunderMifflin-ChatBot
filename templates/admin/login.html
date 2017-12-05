@@ -16,7 +16,7 @@
                 {% if messages %}
                 {% for message in messages %}
                 <p class="alert alert-dismissable {% if message.tags %}alert-{{ message.tags }}" {% endif %}>
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true" onmouseover="this.style.backgroundColor='inherit';this.style.top='0px';this.style.boxShadow='0px 0px 0px 0px #000000';">&times;</button>
                     {{ message }}
                 </p>
                 {% endfor %}

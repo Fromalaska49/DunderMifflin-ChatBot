@@ -21,6 +21,7 @@ from ChatBot.views.update_user.UpdateUserProfile import update_user
 from .views.delete_user.DeleteUser import DeleteUser
 from .views.registration.UserRegistration import UserRegistration
 from .views.chatbot_service.ChatBotHandler import ChatBotHandler
+from .views.chatbot_service.ChatBotEmbedHandler import ChatBotEmbedHandler
 from .views.account_management.UnlockAccount import UnlockAccount
 from .views.account_management.VerifyAccount import VerifyAccount
 from .views.account_management.RequestChange import RequestChange
@@ -31,8 +32,8 @@ from .views.forgot.Forgot import Forgot
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^admin/login/', Login.as_view(), name="admin_login_handler"),  # will override admin login page
-    url(r'^admin/', admin.site.urls),
+    url(r'^admin/login/?', Login.as_view(), name="admin_login_handler"),  # will override admin login page
+    url(r'^admin/?', admin.site.urls),
     url(r'^$', Login.as_view(), name="login"),
     url(r'^register', UserRegistration.as_view(), name="registration"),
     url(r'^registration', UserRegistration.as_view(), name="registration"),
@@ -43,6 +44,7 @@ urlpatterns = [
     url(r'^unlock/(?P<token>\w{12})', UnlockAccount.as_view(), name="account_unlocking_handler"),
     url(r'^login', Login.as_view(), name="login_handler"),
     url(r'^chatbot', ChatBotHandler.as_view(), name="chatbot_handler"),
+    url(r'^embed', ChatBotEmbedHandler.as_view(), name="embed_handler"),
     url(r'^delete', DeleteUser.as_view(), name="delete_user_handler"),
     url(r'^forgot', Forgot.as_view(), name="forgot_handler"),
     url(r'^update', update_user, name="update_profile_handler"),

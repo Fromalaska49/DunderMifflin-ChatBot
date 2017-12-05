@@ -1,6 +1,6 @@
 from django.views.generic import ListView
 from ChatBot.models import User
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from ChatBot.views.util.EmailUtil import send_admin_verified_email
 from ChatBot.views.util.AuthenticationUtil import reset_login_attempts
 from ChatBot.views.misc.Constants import HTTP_HOST
@@ -26,7 +26,7 @@ class VerifyAccount(ListView):
             if user.is_staff:
                 send_admin_verified_email(user.email, request.META[HTTP_HOST])
 
-            return HttpResponse("Account successfully activated!")
+            return HttpResponseRedirect("/login")
 
         else:
             raise Http404()

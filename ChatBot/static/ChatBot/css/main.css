@@ -21,6 +21,21 @@ main {
 	padding: 20px;
 }
 
+#chatbot-embed-container {
+    position: fixed;
+    top: 60px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+}
+
+#chatbot-embed-container .row #history-window #history {
+    display: block;
+    height: calc(100vh - 64px - 60px);
+    background-color: #ffffff;
+    overflow-y: scroll;
+}
+
 @media (max-width: 767px) {
 	
 	header {
@@ -31,6 +46,21 @@ main {
 	main {
 		margin-top: 36px;
 	}
+	
+    #chatbot-embed-container {
+        position: fixed;
+        top: 44px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+    }
+    
+    #chatbot-embed-container .row #history-window #history {
+        display: block;
+        height: calc(100vh - 64px - 44px);
+        background-color: #ffffff;
+        overflow-y: scroll;
+    }
 }
 
 button, input, select, textarea, .transition {
@@ -114,6 +144,12 @@ input[type=text]:active, input[type=password]:active, textarea:active, select:ac
     /* logical-box-shadow: 0px 5px 10px -5px #000000; */
     box-shadow: -5px 0px 10px -5px #000000; /* Shifted to account for rotation */
     cursor: pointer;
+}
+
+#chatbot-embed-container .row #history-window #settings-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
 }
 
 #settings-pane {
