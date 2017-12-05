@@ -38,7 +38,6 @@ class ResetPassword(ListView):
 
         return HttpResponse(json.dumps(return_data), content_type="application/json")
 
-
     def get(self, request, token):
         # type: (object, object) -> object
 

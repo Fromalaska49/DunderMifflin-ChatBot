@@ -3,6 +3,7 @@ import os.path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 from ChatBot.views.misc.Constants import *
 from django.contrib.auth.models import User as AuthUser
+from django.utils.crypto import get_random_string
 import inspect
 import json
 
@@ -46,3 +47,7 @@ def delete_test_admin():
 
 class Session(dict):
     modified = None
+
+    # fake session key generator
+    def cycle_key(self):
+        return get_random_string()

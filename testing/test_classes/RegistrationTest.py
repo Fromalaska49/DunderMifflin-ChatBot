@@ -17,8 +17,8 @@ class RegistrationTest:
     def test_registration_blank_email(request_factory):
         params = params = {
             EMAIL: "",
-            PASSWORD: TEST_USER_PSSWD,
-            CONFIRM_PASSWORD: TEST_USER_PSSWD,
+            PASSWORD: TEST_PSSWD,
+            CONFIRM_PASSWORD: TEST_PSSWD,
             FIRST_NAME: "Max",
             LAST_NAME: "Pegasus"
         }
@@ -34,8 +34,8 @@ class RegistrationTest:
     def test_registration_bad_email(request_factory):
         params = params = {
             EMAIL: "hello@bademail",
-            PASSWORD: TEST_USER_PSSWD,
-            CONFIRM_PASSWORD: TEST_USER_PSSWD,
+            PASSWORD: TEST_PSSWD,
+            CONFIRM_PASSWORD: TEST_PSSWD,
             FIRST_NAME: "Max",
             LAST_NAME: "Pegasus"
         }
@@ -51,8 +51,8 @@ class RegistrationTest:
     def test_registration_blank_fname(request_factory):
         params = params = {
             EMAIL: TEST_USER_EMAIL,
-            PASSWORD: TEST_USER_PSSWD,
-            CONFIRM_PASSWORD: TEST_USER_PSSWD,
+            PASSWORD: TEST_PSSWD,
+            CONFIRM_PASSWORD: TEST_PSSWD,
             FIRST_NAME: "",
             LAST_NAME: "Pegasus"
         }
@@ -68,8 +68,8 @@ class RegistrationTest:
     def test_registration_blank_lname(request_factory):
         params = params = {
             EMAIL: TEST_USER_EMAIL,
-            PASSWORD: TEST_USER_PSSWD,
-            CONFIRM_PASSWORD: TEST_USER_PSSWD,
+            PASSWORD: TEST_PSSWD,
+            CONFIRM_PASSWORD: TEST_PSSWD,
             FIRST_NAME: "Max",
             LAST_NAME: ""
         }
