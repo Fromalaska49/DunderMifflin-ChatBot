@@ -29,6 +29,34 @@ ALLOWED_HOSTS = [u'0.0.0.0', 'localhost', '127.0.0.1', DB_HOST]
 
 APPEND_SLASH = False
 
+# Default settings that were needed for restframework module
+
+LOGGING_CONFIG = None
+FORCE_SCRIPT_NAME = None
+DEFAULT_INDEX_TABLESPACE = ''
+DEFAULT_TABLESPACE = ''
+ABSOLUTE_URL_OVERRIDES = {}
+LOCALE_PATHS = []
+AUTH_USER_MODEL = 'auth.User'
+DEFAULT_CHARSET = 'utf-8'
+FILE_UPLOAD_HANDLERS = [
+    'django.core.files.uploadhandler.MemoryFileUploadHandler',
+    'django.core.files.uploadhandler.TemporaryFileUploadHandler',
+]
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 1000
+FILE_UPLOAD_MAX_MEMORY_SIZE = 2621440
+DATA_UPLOAD_MAX_MEMORY_SIZE = 2621440
+DATABASE_ROUTERS = []
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+    'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
+    'django.contrib.auth.hashers.Argon2PasswordHasher',
+    'django.contrib.auth.hashers.BCryptSHA256PasswordHasher',
+    'django.contrib.auth.hashers.BCryptPasswordHasher',
+]
+DEFAULT_CONTENT_TYPE = 'text/html'
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -40,6 +68,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -94,18 +123,7 @@ DATABASES = {
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+
 ]
 
 # Internationalization
@@ -140,6 +158,11 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = CHATBOT_MAIL_ADDRESS
 EMAIL_HOST_PASSWORD = CHATBOT_MAIL_PASSWORD
 EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_TIMEOUT = None
+EMAIL_SSL_KEYFILE = None
+EMAIL_SSL_CERTFILE = None
+EMAIL_USE_LOCALTIME = False
 
 # Logging configuration
 LOGGING = {
@@ -190,3 +213,6 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = TIME
 SESSION_IDLE_TIMEOUT = TIME
+
+LOGIN_URL = "/login"
+LOGIN_REDIRECT_URL = '/'

@@ -15,17 +15,24 @@
                     <div id="settings-button" class="transition">
                         <img src="{% static 'ChatBot/images/icons/ic_settings_white_48dp_2x.png' %}" style="height:35px;" />
                     </div>
+                    <div style="float:right;height:60px;width:45px;">
+                    </div>
                     <div id="settings-pane" style="display:none;position:absolute;top:10px;right:10px;border-radius:27px;background-color:#002244;color:#ffffff;">
                         <div id="settings-pane-exit" style="position:absolute;top:6px;right:6px;border-radius:28px;background-color:#002244;color:#ffffff;cursor:pointer;">
                             <img src="{% static 'ChatBot/images/icons/ic_close_white_48dp_2x.png' %}" style="height:35px;" />
                         </div>
-                        <ul style="list-style-type:none;padding:47px 27px 0px 27px;">
+                        <ul style="list-style-type:none;padding:47px 27px 0px 27px;max-height:calc(100vh - 100px);overflow-y:scroll;">
                             <li id="clear-history-button" class="settings-pane-item">
                                 Clear History
                             </li>
                             <a href="update_profile_handler">
                                 <li class="settings-pane-item">
                                     Edit Account
+                                </li>
+                            </a>
+                            <a href="change_password_handler">
+                                <li class="settings-pane-item">
+                                    Change Password
                                 </li>
                             </a>
                             <a href="delete">
@@ -47,13 +54,13 @@
             </div>
             <form id="query">
                 {% csrf_token %}
-                <div class="row" style="padding:10px;background-color:#cdcdcd;">
-                    <div id="user-entry" class="col-sm-9">
+                <div class="row" style="padding:10px;background-color:#cdcdcd;display:flex;">
+                    <div id="user-entry" style="flex-grow:10;padding:0px;margin:0px 5px 0px 0px">
                         <input type="text" id="question" name="QUESTION_TEXT" style="width:100%;height:44px;"
                                placeholder="How can I help?" autocomplete="off" />
                     </div>
-                    <div id="submit-div" class="col-sm-3" style="text-align:center;">
-                        <input type="submit" value="Send" onclick="SendQuestion()" style="outline-style:none;" />
+                    <div id="submit-div" style="text-align:center;margin:0px 0px 0px 5px;">
+                        <input type="submit" value="Send" style="outline-style:none;" />
                     </div>
                 </div>
             </form>
@@ -71,6 +78,37 @@
     String.prototype.htmlEncode = function(){
         return $("<div></div>").text(this).html();
     }
+    String.prototype.encodeLinks = function(){
+        var str = this;
+        var matches = [];
+        var additionalMatches = str.match(/\bhttps?:\/\/\S+/gi);
+        if(additionalMatches != null){
+            additionalMatches.forEach(function(match){
+                matches.push(match);
+            });
+        }
+        var additionalMatches = str.match(/\b\/\S+/gi);
+        if(additionalMatches != null){
+            additionalMatches.forEach(function(match){
+                var notThere = true;
+                matches.forEach(function(existingMatch){
+                    if(existingMatch.indexOf(match) > -1){
+                        notThere = false;
+                    }
+                });
+                if(notThere){
+                    matches.push(match);
+                }
+            });
+        }
+        if(matches != null){
+            matches.forEach(function(match){
+                var replacement = "<a href=\"" + match + "\">" + match + "</a>";
+                str = str.split(match).join(replacement);
+            });
+        }
+        return str;
+    }
     $(document).ready(function(){
         $("#query").submit(function(e){
             e.preventDefault();
@@ -83,12 +121,12 @@
                 data: q,
                 success: function(data) {
                     var str = "You: " + question.htmlEncode() + "<br>";
-                    $("#history").append(str + "OIT: " + data["MESSAGE"] + "<br>");
+                    $("#history").append(str + "OIT: " + data["MESSAGE"].encodeLinks() + "<br>");
                     $("#history").animate({ scrollTop: $('#history').prop("scrollHeight")}, 200);
                 },
                 error: function(data) {
                     var str = "You: " + question.htmlEncode() + "<br>";
-                    $("#history").append(str + "OIT: " + data["MESSAGE"] + "<br>");
+                    $("#history").append(str + "OIT: " + data["MESSAGE"].encodeLinks() + "<br>");
                     $("#history").animate({ scrollTop: $('#history').prop("scrollHeight")}, 200);
                 }
             });
@@ -106,7 +144,7 @@
             }
         });
         $("#clear-history-button").on("click", function(){
-            $("#history").html("");
+            $("#history").html("OIT: Welcome, {{ user.username }} <br />");
             $("#settings-pane").fadeOut(200);
         });
     });
