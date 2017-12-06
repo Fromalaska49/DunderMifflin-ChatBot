@@ -172,3 +172,11 @@ input[type=text]:active, input[type=password]:active, textarea:active, select:ac
 .settings-pane-item:hover, .settings-pane-item:active {
     background-color: #004488;
 }
+
+.intent_entry {
+    padding: 10px;
+    min-height: 64px;
+    border-style: none none solid none;
+    border-color: #cccccc;
+    border-width: 1px;
+}
