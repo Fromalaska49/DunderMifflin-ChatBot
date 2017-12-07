@@ -27,6 +27,7 @@ from .views.account_management.VerifyAccount import VerifyAccount
 from .views.account_management.RequestChange import RequestChange
 from .views.account_management.ResetPassword import ResetPassword
 from .views.intent_management.GetIntent import GetIntent
+from .views.intent_management.GetIntents import GetIntents
 from .views.intent_management.RemoveIntent import RemoveIntent
 from .views.intent_management.AddIntent import AddIntent
 from .views.login.Login import Login
@@ -58,7 +59,9 @@ urlpatterns = [
     url(r'^password_changed', password_change_done, {'template_name': 'change_password/change_password.html'},
         name='password_change_done'),
     url(r'^delete_success', DeleteUser.as_view(), name="delete_success_handler"),
-    url(r'^get_intents', GetIntent.as_view(), name="get_intents"),
+    url(r'^get_intents', GetIntents.as_view(), name="get_intents"),
+    url(r'^get_intent', GetIntent.as_view(), name="get_intent"),
+    url(r'^get_intents', GetIntents.as_view(), name="get_intents"),
     url(r'^remove_intent', RemoveIntent.as_view(), name="remove_intent"),
     url(r'^add_intent', AddIntent.as_view(), name="add_intent")
 ]
