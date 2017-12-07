@@ -19,6 +19,7 @@ class Login(ListView):
         password = request.POST[PASSWORD]
         return_data = {}
         return_data[ERROR] = True
+        return_data[ACCOUNT_TYPE] = USER
         user = authenticate(request, username=email, password=password)
 
         if account_is_locked(email):
@@ -49,6 +50,10 @@ class Login(ListView):
                 return_data[ERROR] = False
                 login(request, user)
                 return_data[MSG] = LOGIN_SUCCESS
+
+                if user.is_staff:
+                    return_data[ACCOUNT_TYPE] = ADMIN
+
                 redirect_to = reverse("chatbot_handler")
                 '''
                 # redirect should be handled by JS on successful login
@@ -62,5 +67,9 @@ class Login(ListView):
 
     def get(self, request):
         if request.user.is_authenticated:
+
+            if request.user.is_staff:
+                return HttpResponseRedirect("/admin")
+
             return HttpResponseRedirect("/chatbot")
         return render(request, "admin/login.html")

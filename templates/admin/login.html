@@ -80,7 +80,11 @@
                             $("#login-message-container").removeClass("alert-danger");
                             $("#login-message-container").html("Succes: click <a href=\"/chatbot\">here</a> if you are not automatically redirected");
                             $("#login-message-container").css("display", "inline-block");
-                            window.location.replace("/chatbot");
+
+                            if(response['ACCOUNT_TYPE'] == 'ADMIN')
+                                window.location.replace("/admin");
+                            else
+                                window.location.replace("/chatbot");
                         }
                         else if(response.ERROR == true){
                             //failed login
