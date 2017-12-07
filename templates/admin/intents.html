@@ -66,7 +66,6 @@
             type: "POST",
             data: q,
             success: function(data) {
-                alert("Successfully deleted intent id " + id);
                 if(callback) {
                     callback();
                 } else {
@@ -104,6 +103,7 @@
         new_intention_list.push(text);
         removeIntent(parent_id, function() {
             addIntent(parent['name'], new_intention_list.join("\n"), parent['response']);
+            location.reload();
         });
     }
 
