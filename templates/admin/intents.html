@@ -13,13 +13,13 @@
         <div class="col-sm-1 col-md-2 col-lg-3 hidden-xs-down spacer">
         </div>
         <div id="chatbot-container" class="col-sm-10 col-md-8 col-lg-6 col-xs-12"
-             style="border-style:solid;border-color:black;border-width:1px;background-color:#ffffff;">
+             style="border-style:solid;border-color:black;border-width:1px;background-color:#ffffff;padding:0px;">
             <div id="output">
 
             </div>
             <form id="query">
                 {% csrf_token %}
-                <div class="row" style="padding:10px;background-color:#cdcdcd;">
+                <div style="padding:10px;background-color:#cdcdcd;">
                     <div id="user-entry" class="col-sm-12">
                         <a href="/add_intent" id="add_new">Add New Question</a>
                         <a href="#" style="float: right;" id="home"></a>
@@ -46,9 +46,9 @@
 
     function showDetail(id) {
         var data = intent_data.filter((x => x['id'] == id));
-        $("#output").html("<hr>");
+        $("#output").html("");
         data[0]['templates'].forEach(function(elem) {
-            $("#output").append("<div class=\"intention\">\"" + elem['text'] + "\"<a href=\"#\" onclick=\"removeIntention(\'" + id + "," + elem['id'] + "\')\" class=\"alert-danger\" style=\"float: right\">Remove Intention</a></div><hr>")
+            $("#output").append("<div class=\"intent_entry\"><div style=\"position:relative;top:10px;display:inline;\">\"" + elem['text'] + "\"</div><a href=\"#\" onclick=\"removeIntention(\'" + id + "," + elem['id'] + "\')\" class=\"alert-danger button-shape\" style=\"float: right;text-decoration:none;\">Remove Intention</a></div>")
         });
         $("#add_new").html("Add New Intention");
         $("#add_new").after("&nbsp;&nbsp;<input type=\"text\" id=\"new_text\" placeholder=\"New Intention\">");
@@ -66,7 +66,7 @@
             type: "POST",
             data: q,
             success: function(data) {
-                alert("Successfully deleted intent id " + id);
+                //alert("Successfully deleted intent id " + id);
                 if(callback) {
                     callback();
                 } else {
@@ -135,16 +135,16 @@
                 getIntents();
             },
             error: function(data) {
-                alert(data);
+                //alert(data);
             }
         })
     }
 
     function updateMain() {
-        $("#output").html("<hr>");
+        $("#output").html("");
         intent_data.forEach(function(elem) {
-            $("#output").append("<div class=\"intent_entry\"><a href=\"#\" onclick=\"showDetail('"+elem['id']+"')\">" + elem['name'] +
-                "</a><a href=\"#\" class=\"alert-danger\" style=\"float: right\" onclick=\"removeIntent('"+elem['id']+"')\">Delete Question</a></div><hr>");
+            $("#output").append("<div class=\"intent_entry\"><a href=\"#\" onclick=\"showDetail('"+elem['id']+"')\" class=\"button-shape\" style=\"position:relative;top:10px;/*don't judge*//*if it's stupid but it works...*/\">" + elem['name'] +
+                "</a><a href=\"#\" class=\"alert-danger button-shape\" style=\"float: right; text-decoration: none;\" onclick=\"removeIntent('"+elem['id']+"')\">Delete Question</a></div>");
         });
         $("#add_new").html("Add New Intent");
         $("#new_text").remove();
