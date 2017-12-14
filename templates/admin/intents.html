@@ -38,8 +38,8 @@
 {% block javascript %}
 <script type="text/javascript">
     //encodes String for use in HTML
+    var intention_data = {};
     var intent_data = {};
-
     String.prototype.htmlEncode = function(){
         return $("<div></div>").text(this).html();
     };
@@ -53,7 +53,7 @@
             type: "POST",
             data: q,
             success: function(data) {
-                data.forEach(function(elem) {
+                data[0]['templates'].forEach(function(elem) {
                     $("#output").append("<div class=\"intent_entry\"><div style=\"position:relative;top:10px;display:inline;\">\"" + elem['text'] + "\"</div><a href=\"#\" onclick=\"removeIntention(\'" + id + "," + elem['id'] + "\')\" class=\"alert-danger button-shape\" style=\"float: right;text-decoration:none;\">Remove Intention</a></div>")
                 });
                 $("#add_new").html("Add New Intention");
@@ -62,7 +62,7 @@
                 $("#add_new").click(function() { addIntention(id, $("#new_text").val()) });
                 $("#home").html("Main Page");
                 $("#home").click(updateMain);
-                //$("#output").html("");
+                intention_data = data;
             },
             error: function(data) {
                 alert("error: " + data);
@@ -100,10 +100,9 @@
         }
         var parent_id = id_list[0];
         var intention_id = id_list[1];
-        var parent = intent_data.filter((x => x['id'] == parent_id))[0];
-        var new_intention_list = parent['templates'].filter(x => x['id'] != intention_id).map(x => x['text']);
+        var new_intention_list = intention_data.filter(x => x['id'] != intention_id).map(x => x['text']);
         removeIntent(parent_id, function() {
-            addIntent(parent['name'], new_intention_list.join("\n"), parent['response']);
+            addIntent(intention_data['name'], new_intention_list.join("\n"), intention_data['response']);
         });
     }
 
@@ -112,11 +111,10 @@
             alert("Error: New intention must contain text.");
             return;
         }
-        var parent = intent_data.filter((x => x['id'] == parent_id))[0];
-        var new_intention_list = parent['templates'].map(x => x['text']);
+        var new_intention_list = intention_data['templates'].map(x => x['text']);
         new_intention_list.push(text);
         removeIntent(parent_id, function() {
-            addIntent(parent['name'], new_intention_list.join("\n"), parent['response']);
+            addIntent(intention_data['name'], new_intention_list.join("\n"), intention_data['response']);
         });
     }
 
