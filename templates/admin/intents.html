@@ -45,17 +45,30 @@
     };
 
     function showDetail(id) {
-        var data = intent_data.filter((x => x['id'] == id));
+        $("#intent_id").val(id);
+        var q = $("#query").serialize();
         $("#output").html("");
-        data[0]['templates'].forEach(function(elem) {
-            $("#output").append("<div class=\"intent_entry\"><div style=\"position:relative;top:10px;display:inline;\">\"" + elem['text'] + "\"</div><a href=\"#\" onclick=\"removeIntention(\'" + id + "," + elem['id'] + "\')\" class=\"alert-danger button-shape\" style=\"float: right;text-decoration:none;\">Remove Intention</a></div>")
+        $.ajax({
+            url: "/get_intent",
+            type: "POST",
+            data: q,
+            success: function(data) {
+                data.forEach(function(elem) {
+                    $("#output").append("<div class=\"intent_entry\"><div style=\"position:relative;top:10px;display:inline;\">\"" + elem['text'] + "\"</div><a href=\"#\" onclick=\"removeIntention(\'" + id + "," + elem['id'] + "\')\" class=\"alert-danger button-shape\" style=\"float: right;text-decoration:none;\">Remove Intention</a></div>")
+                });
+                $("#add_new").html("Add New Intention");
+                $("#add_new").after("&nbsp;&nbsp;<input type=\"text\" id=\"new_text\" placeholder=\"New Intention\">");
+                $("#add_new").attr("href", "#");
+                $("#add_new").click(function() { addIntention(id, $("#new_text").val()) });
+                $("#home").html("Main Page");
+                $("#home").click(updateMain);
+                //$("#output").html("");
+            },
+            error: function(data) {
+                alert("error: " + data);
+            }
         });
-        $("#add_new").html("Add New Intention");
-        $("#add_new").after("&nbsp;&nbsp;<input type=\"text\" id=\"new_text\" placeholder=\"New Intention\">");
-        $("#add_new").attr("href", "#");
-        $("#add_new").click(function() { addIntention(id, $("#new_text").val()) });
-        $("#home").html("Main Page");
-        $("#home").click(updateMain);
+
     };
 
     function removeIntent(id, callback) {
@@ -114,7 +127,7 @@
             url: "/get_intents",
             type: "POST",
             data: q,
-            success: function(data) { intent_data = data; updateMain() },
+            success: function(data) { intent_data = JSON.parse(data); updateMain() },
             error: function(data) {
                 $("#output").html("Error: " + data + "<br>");
             }
