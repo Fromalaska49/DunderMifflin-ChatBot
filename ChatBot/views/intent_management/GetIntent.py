@@ -17,7 +17,6 @@ class GetIntent(LoginRequiredMixin, ListView):
         templates = []
 
         intent_id = request.POST[INTENT_ID]
-        intent_name = 'hello'
 
         intent = requests.get(API_URL + '/' + intent_id + '/' + API_URL_TAIL, headers=API_HEADER)
         intent_info = ''
@@ -25,6 +24,8 @@ class GetIntent(LoginRequiredMixin, ListView):
         for line in intent:
             intent_info += line
         intent_info_json = json.loads(intent_info)
+
+        intent_name = intent_info_json['name']
 
         if 'responses' in intent_info_json and 'messages' in intent_info_json['responses'][0]:
             res = intent_info_json['responses'][0]['messages'][0]['speech']
