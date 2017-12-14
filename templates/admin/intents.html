@@ -63,6 +63,8 @@
                 $("#home").html("Main Page");
                 $("#home").click(updateMain);
                 intention_data = data;
+                console.log('updated intention data...');
+                console.log(intention_data);
             },
             error: function(data) {
                 alert("error: " + data);
@@ -98,11 +100,14 @@
             alert("Error: unable to process request");
             return;
         }
-        var parent_id = id_list[0];
         var intention_id = id_list[1];
-        var new_intention_list = intention_data.filter(x => x['id'] != intention_id).map(x => x['text']);
-        removeIntent(parent_id, function() {
-            addIntent(intention_data['name'], new_intention_list.join("\n"), intention_data['response']);
+        console.log(intention_data[0]['templates']);
+        console.log(intention_id);
+        var new_intention_list = intention_data[0]['templates'].filter(x => x['id'] != intention_id).map(x => x['text']);
+        console.log(new_intention_list);
+        //return;
+        removeIntent(id_list[0], function() {
+            addIntent(intention_data[0]['name'], new_intention_list.join("\n"), intention_data[0]['response']);
         });
     }
 
@@ -111,10 +116,12 @@
             alert("Error: New intention must contain text.");
             return;
         }
-        var new_intention_list = intention_data['templates'].map(x => x['text']);
+        console.log('parent_id='+parent_id+',text='+text);
+        var new_intention_list = intention_data[0]['templates'].map(x => x['text']);
+        console.log(new_intention_list);
         new_intention_list.push(text);
         removeIntent(parent_id, function() {
-            addIntent(intention_data['name'], new_intention_list.join("\n"), intention_data['response']);
+            addIntent(intention_data[0]['name'], new_intention_list.join("\n"), intention_data[0]['response']);
         });
     }
 
