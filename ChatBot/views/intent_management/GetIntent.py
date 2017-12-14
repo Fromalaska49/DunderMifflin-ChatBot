@@ -13,47 +13,38 @@ logger = logging.getLogger(__name__)
 class GetIntent(LoginRequiredMixin, ListView):
     def post(self, request):
         """ Standard post function. """
-        return_data = {}
-        return_data[ERROR] = False
-        intent_data = ''
+        intent = request
 
-        # Get all intents
-        intents = requests.get(API_URL + '/' + API_URL_TAIL, headers=API_HEADER)
-        for intent in intents:
-            intent_data += intent
-        intent_json = json.loads(intent_data)
-        intent_output = []
-        for intent in intent_json:
-            templates = []
-            if 'id' in intent and 'name' in intent:
-                intent_id = intent['id']
-                intent_name = intent['name']
-            else:
-                continue
+        response = []
+        templates = []
 
-            intent_info = requests.get(API_URL + '/' + intent_id + '/' + API_URL_TAIL, headers=API_HEADER)
-            intent_info_data = ''
-            for line in intent_info:
-                intent_info_data += line
-            intent_info_json = json.loads(intent_info_data)
-            if 'responses' in intent_info_json and 'messages' in intent_info_json['responses'][0]:
-                response = intent_info_json['responses'][0]['messages'][0]['speech']
-                user_says = intent_info_json['userSays']
-                for statement in user_says:
-                    if(len(statement['data']) > 0):
-                        template = {'id': statement['id'], 'text': statement['data'][0]['text']}
-                        templates.append(template)
-            else:
-                response = ''
-            temp = {'id': intent_id,
-                    'name': intent_name,
-                    'response': response,
-                    'templates': templates}
-            intent_output.append(temp)
+        intent_id = intent['id']
+        intent_name = intent['name']
 
-        return_data[MSG] = intent_data
+        intent = requests.get(API_URL + '/' + intent_id + '/' + API_URL_TAIL, headers=API_HEADER)
+        intent_info = ''
 
-        return HttpResponse(json.dumps(intent_output), content_type="application/json")
+        for line in intent:
+            intent_info += line
+        intent_info_json = json.loads(intent_info)
+
+        if 'responses' in intent_info_json and 'messages' in intent_info_json['responses'][0]:
+            res = intent_info_json['responses'][0]['messages'][0]['speech']
+            user_says = intent_info_json['userSays']
+            for statement in user_says:
+                if len(statement['data']) > 0:
+                    template = {'id': statement['id'], 'text': statement['data'][0]['text']}
+                    templates.append(template)
+        else:
+            res = ''
+
+        temp = {'id': intent_id,
+                'name': intent_name,
+                'response': res,
+                'templates': templates}
+        response.append(temp)
+
+        return HttpResponse(json.dumps(response), content_type="application/json")
 
     def get(self, request):
         """ Standard get function. """
