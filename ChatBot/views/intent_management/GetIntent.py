@@ -13,18 +13,11 @@ logger = logging.getLogger(__name__)
 class GetIntent(LoginRequiredMixin, ListView):
     def post(self, request):
         """ Standard post function. """
-        request_data = ""
-        for line in request:
-            request_data += line
-        print("intent=" + request_data)
-
-        intent = json.loads(request_data)
-
         response = []
         templates = []
 
-        intent_id = intent['id']
-        intent_name = intent['name']
+        intent_id = request.POST[INTENT_ID]
+        intent_name = 'hello'
 
         intent = requests.get(API_URL + '/' + intent_id + '/' + API_URL_TAIL, headers=API_HEADER)
         intent_info = ''
