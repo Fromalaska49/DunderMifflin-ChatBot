@@ -9,14 +9,16 @@ import apiai
 
 logger = logging.getLogger(__name__)
 
-class ChatBotHandler(LoginRequiredMixin, ListView):
-    #only works for admin atm
-    #restricts chatbot usage to only logged in users
 
-    login_url = 'login_handler'
-    redirect_field_name = 'redirect_to'
+class ChatBotHandler(LoginRequiredMixin, ListView):
+    # only works for admin atm
+    # restricts chatbot usage to only logged in users
+
+    # login_url = 'login_handler'
+    # redirect_field_name = 'redirect_to'
 
     def post(self, request):
+
         """ Standard post function. """
         ai = apiai.ApiAI(API_CLIENT_KEY)
 
@@ -32,10 +34,8 @@ class ChatBotHandler(LoginRequiredMixin, ListView):
         return_data[MSG] = response['result']['fulfillment']['speech']
 
         logger.info("Anwsering with: %s\n", return_data[MSG])
-
         return HttpResponse(json.dumps(return_data), content_type="application/json")
 
     def get(self, request):
         # type: (object) -> object
-        """ Standard get function. """
         return render(request, "chat/chat.html")

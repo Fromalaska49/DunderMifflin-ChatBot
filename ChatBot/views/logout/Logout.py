@@ -1,6 +1,6 @@
 from django.urls import reverse
 from django.views.generic import ListView
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -14,12 +14,11 @@ import json
 
 class Login(ListView):
     def post(self, request):
-        
-        logout(user)
+        logout(request.user)
 
         # Get Request Handler
 
     def get(self, request):
         # Serve registration registration. give path relative to templates folder
-        logout(user)
+        logout(request.user)
         return render(request, "admin/logout.html")

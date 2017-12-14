@@ -1,5 +1,8 @@
 import datetime
+
+from django.contrib import auth
 from django.contrib.auth.views import logout, login
+from django.http import HttpResponseRedirect
 from django.utils.deprecation import MiddlewareMixin
 from django.shortcuts import render, redirect
 from ChatBot import settings
@@ -7,14 +10,13 @@ from ChatBot import settings
 
 class AutoLogout(MiddlewareMixin):
     def process_request(self, request):
-        if request.user.is_authenticated():
-            current_datetime = datetime.datetime.now()
-            if 'last_login' in request.session:
-                last = (current_datetime - request.session['last_login']).seconds
-                if last > settings.SESSION_IDLE_TIMEOUT:
-                    logout(request)
-                    redirect('/login')
-                    
-            else:
-                request.session['last_login'] = current_datetime
-        return None
+        if not request.user.is_authenticated():
+            return
+        try:
+            if (datetime.datetime.now() - request.session['last_touch']).seconds > settings.SESSION_IDLE_TIMEOUT:
+                auth.logout(request)
+                del request.session['last_touch']
+                return render(request, "admin/login.html")
+        except KeyError:
+            pass
+        request.session['last_touch'] = datetime.datetime.now()
