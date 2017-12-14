@@ -51,7 +51,11 @@
         $.ajax({
             url: "/get_intent",
             type: "POST",
-            data: q,
+            data: {
+                csrfmiddlewaretoken: $("#query input[name=\"csrfmiddlewaretoken\"]").first().val(),
+                INTENT_NAME: intent_data.filter(x => x['id'] == id)[0]['name'],
+                INTENT_ID: id
+            },
             success: function(data) {
                 data[0]['templates'].forEach(function(elem) {
                     $("#output").append("<div class=\"intent_entry\"><div style=\"position:relative;top:10px;display:inline;\">\"" + elem['text'] + "\"</div><a href=\"#\" onclick=\"removeIntention(\'" + id + "," + elem['id'] + "\')\" class=\"alert-danger button-shape\" style=\"float: right;text-decoration:none;\">Remove Intention</a></div>")
